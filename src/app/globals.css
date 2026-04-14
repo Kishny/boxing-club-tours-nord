@@ -1,26 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to bottom, #f8f8f8, #f3f4f6, #ececec);
+  color: #111111;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container-custom {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------------------------------------------------
+   Effet premium dégradé animé pour le lien Disciplines
+--------------------------------------------------- */
+.gradient-blink-premium {
+  background: linear-gradient(90deg, #dc2626, #f59e0b, #facc15, #dc2626);
+  background-size: 300% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientBlinkPremium 2s linear infinite;
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.22);
+  letter-spacing: 0.02em;
+}
+
+/* ---------------------------------------------------
+   Animation du dégradé
+--------------------------------------------------- */
+@keyframes gradientBlinkPremium {
+  0% {
+    background-position: 0% center;
+    opacity: 1;
+  }
+  50% {
+    background-position: 100% center;
+    opacity: 0.92;
+  }
+  100% {
+    background-position: 0% center;
+    opacity: 1;
+  }
+}
+
+/* ===================================================
+   STYLE PREMIUM DU TEXTE "DISCIPLINES"
+   Ici on évite le texte trop transparent qui disparaît.
+   On garde un effet premium, mais lisible.
+=================================================== */
+.discipline-text-premium {
+  background: linear-gradient(90deg, #dc2626, #f59e0b, #b91c1c);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: disciplineShine 2.4s linear infinite;
+  text-shadow: 0 0 8px rgba(220, 38, 38, 0.12);
+}
+
+/* ===================================================
+   Animation légère et premium du texte Disciplines
+=================================================== */
+@keyframes disciplineShine {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ===================================================
+   Animation d'entrée du texte du Hero
+=================================================== */
+.hero-text-enter {
+  animation: heroTextEnter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes heroTextEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ===================================================
+   LIGNE VERTICALE LUMINEUSE PREMIUM
+   Effet shimmer très discret pour éviter l'effet gadget
+=================================================== */
+.event-shimmer-line {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #ef4444, #f59e0b, #b91c1c);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.35);
+}
+
+.event-shimmer-line::after {
+  content: "";
+  position: absolute;
+  inset: -20% 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  animation: eventLineShimmer 2.8s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+/* Animation shimmer verticale */
+@keyframes eventLineShimmer {
+  0% {
+    transform: translateY(-120%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+/* ===================================================
+   BADGE BILLETTERIE OUVERTE
+   Pulse ultra discret, premium et lent
+=================================================== */
+.event-ticket-badge {
+  animation: eventTicketPulse 2.8s ease-in-out infinite;
+  box-shadow: 0 0 0 rgba(251, 191, 36, 0);
+}
+
+/* Animation pulse douce */
+@keyframes eventTicketPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(251, 191, 36, 0);
+  }
+  50% {
+    transform: scale(1.025);
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.14);
+  }
+}
+
+/* ===================================================
+   Animation douce d’apparition si besoin plus tard
+   (prévu pour certaines cartes ou sections premium)
+=================================================== */
+.discipline-card-soft-glow {
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.discipline-card-soft-glow:hover {
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.10),
+    0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+}
+
+/* ===================================================
+   APPARITION PREMIUM DU DONUT CHART
+=================================================== */
+.donut-appear {
+  animation: donutAppear 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes donutAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ===================================================
+   LISERÉ LUMINEUX PREMIUM AUTOUR DU DONUT
+=================================================== */
+.donut-premium-ring {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+    0 0 26px rgba(245, 158, 11, 0.08),
+    0 0 34px rgba(220, 38, 38, 0.05);
+}
+
+/* ===================================================
+   APPARITION PREMIUM DU DONUT
+=================================================== */
+.donut-appear {
+  animation: donutAppear 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes donutAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ===================================================
+   LISERÉ LUMINEUX PREMIUM AUTOUR DU DONUT
+=================================================== */
+.donut-premium-ring {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+    0 0 26px rgba(245, 158, 11, 0.08),
+    0 0 34px rgba(220, 38, 38, 0.05);
+}
+
+/* ===================================================
+   MICRO-ROTATION CONTINUE TRÈS LENTE DU DONUT
+   Effet luxe discret au repos
+=================================================== */
+.donut-slow-spin {
+  animation: donutSlowSpin 26s linear infinite;
+  transform-origin: center;
+}
+
+/* Animation de rotation lente */
+@keyframes donutSlowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===================================================
+   RESET D’ORIENTATION DU DONUT
+   Quand une discipline est active :
+   - on coupe l’animation
+   - on revient proprement à l’angle 0
+=================================================== */
+.donut-reset-orientation {
+  animation: none;
+  transform: rotate(0deg);
+  transform-origin: center;
+}
+
+/* ===================================================
+   MARQUEE PREMIUM DES LOGOS DE CLUBS
+=================================================== */
+.clubs-marquee-track {
+  animation: clubsMarquee 18s linear infinite;
+}
+
+.clubs-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes clubsMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===================================================
+   SHIMMER PREMIUM DISCRET SUR LES CARDS LOGOS
+=================================================== */
+.club-logo-card-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 35%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.03) 65%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  transition: left 0.9s ease;
+  pointer-events: none;
+}
+
+.club-logo-card-shimmer:hover::after {
+  left: 130%;
+}
+
+/* ===================================================
+   SÉPARATEUR PREMIUM ANIMÉ
+   Style élégant et cohérent avec l'identité du club
+=================================================== */
+
+.separator-line {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    rgba(239, 68, 68, 0.35),
+    rgba(245, 158, 11, 0.35),
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+}
+
+/* Effet lumineux animé */
+.separator-glow {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    rgba(239, 68, 68, 0.5),
+    rgba(245, 158, 11, 0.5),
+    transparent
+  );
+  filter: blur(4px);
+  opacity: 0.6;
+  animation: separatorShimmer 4s linear infinite;
+}
+
+/* Animation fluide et élégante */
+@keyframes separatorShimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
 }
