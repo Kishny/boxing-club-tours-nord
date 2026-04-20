@@ -1,3 +1,4 @@
+// data/athletes.ts
 // =====================================================
 // TYPE ATHLÈTE
 // =====================================================
@@ -9,6 +10,7 @@ export type Athlete = {
   level: string;
   record: string;
   image: string;
+  imagePosition: string;
   description: string;
   achievements: string[];
   accent: string;
@@ -23,16 +25,17 @@ export type Athlete = {
 export const athletes: Athlete[] = [
   {
     id: 1,
-    slug: "alexandre-dupont",
-    name: "Alexandre Dupont",
+    slug: "stacy-vargas",
+    name: "Stacy VARGAS",
     discipline: "Kickboxing",
     level: "Avancé",
     record: "15 victoires • 3 défaites",
-    image: "/images/athletes/athlete-1.jpg",
+    image: "/images/athletes/stacy.png",
+    imagePosition: "50% 18%",
     description:
-      "Combattant technique et explosif, Alexandre incarne la rigueur, l’intensité et la progression structurée du Boxing Club Tours Nord.",
+      "Combattante technique et explosive, Stacy incarne la rigueur, l’intensité et la progression structurée du Boxing Club Tours Nord.",
     achievements: [
-      "Champion régional 2024",
+      "Championne régionale 2024",
       "Finaliste Coupe de France",
       "Athlète élite du club",
     ],
@@ -47,7 +50,8 @@ export const athletes: Athlete[] = [
     discipline: "K1 Rules",
     level: "Semi-professionnel",
     record: "12 victoires • 2 défaites",
-    image: "/images/athletes/athlete-2.jpg",
+    image: "/images/athletes/mehdi.png",
+    imagePosition: "50% 16%",
     description:
       "Puissant, stratégique et engagé, Mehdi se distingue par son timing, sa lecture du combat et son impact dans l’échange.",
     achievements: [
@@ -61,17 +65,18 @@ export const athletes: Athlete[] = [
   },
   {
     id: 3,
-    slug: "lucas-martin",
-    name: "Lucas Martin",
+    slug: "anna-martin",
+    name: "Anna Martin",
     discipline: "Full Contact",
     level: "Confirmé",
     record: "10 victoires • 1 défaite",
-    image: "/images/athletes/athlete-3.jpg",
+    image: "/images/athletes/anna.png",
+    imagePosition: "50% 20%",
     description:
-      "Lucas construit sa progression autour de la discipline, du mental et d’un vrai socle technique, avec une implication constante.",
+      "Anna construit sa progression autour de la discipline, du mental et d’un vrai socle technique, avec une implication constante.",
     achievements: [
-      "Champion départemental",
-      "Médaillé national",
+      "Championne départementale",
+      "Médaillée nationale",
       "Athlète espoir",
     ],
     accent: "#ffffff",
@@ -85,7 +90,8 @@ export const athletes: Athlete[] = [
     discipline: "Kickboxing",
     level: "Professionnel",
     record: "18 victoires • 2 défaites",
-    image: "/images/athletes/karim-benali.jpg",
+    image: "/images/athletes/karim.png",
+    imagePosition: "50% 17%",
     description:
       "Combattant explosif et technique, reconnu pour son engagement et sa régularité au plus haut niveau.",
     achievements: [
@@ -104,7 +110,8 @@ export const athletes: Athlete[] = [
     discipline: "K1 Rules",
     level: "Professionnel",
     record: "20 victoires • 4 défaites",
-    image: "/images/athletes/yassine-el-amrani.jpg",
+    image: "/images/athletes/yassine.png",
+    imagePosition: "50% 18%",
     description:
       "Combattant spectaculaire et redoutable stratège, Yassine se distingue par sa puissance et sa précision en compétition.",
     achievements: [
@@ -118,17 +125,18 @@ export const athletes: Athlete[] = [
   },
   {
     id: 6,
-    slug: "enzo-moreau",
-    name: "Enzo Moreau",
+    slug: "lorie-moreau",
+    name: "Lorie Moreau",
     discipline: "Low Kick",
     level: "Élite",
     record: "14 victoires • 2 défaites",
-    image: "/images/athletes/enzo-moreau.jpg",
+    image: "/images/athletes/lorie.png",
+    imagePosition: "50% 16%",
     description:
-      "Athlète complet et déterminé, Enzo se démarque par son endurance, sa mobilité et son engagement dans le combat.",
+      "Athlète complète et déterminée, Lorie se démarque par son endurance, sa mobilité et son engagement dans le combat.",
     achievements: [
-      "Champion national Low Kick",
-      "Vainqueur de la Coupe de France",
+      "Championne nationale Low Kick",
+      "Vainqueure de la Coupe de France",
       "Espoir international",
     ],
     accent: "#f97316",

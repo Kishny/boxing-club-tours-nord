@@ -11,8 +11,7 @@ import { athletes } from "@/data/athletes";
 
 // =====================================================
 // COMPOSANT GRILLE ATHLÈTES
-// Version premium avec filtre animé
-// + espacement corrigé en bas
+// V2 PREMIUM MOBILE + FILTRES ULTRA PROPRES
 // =====================================================
 export default function AthletesGrid() {
   // ---------------------------------------------------
@@ -36,7 +35,7 @@ export default function AthletesGrid() {
   }, [filter]);
 
   return (
-    <section className="container-custom py-16 pb-28 md:pb-32 lg:pb-36">
+    <section className="container-custom py-8 pb-16 md:py-16 md:pb-32 lg:pb-36">
       {/* ---------------------------------------------
           FILTRES
       --------------------------------------------- */}
@@ -47,23 +46,37 @@ export default function AthletesGrid() {
       />
 
       {/* ---------------------------------------------
+          RÉSULTAT MOBILE COMPACT
+      --------------------------------------------- */}
+      <div className="mb-4 flex items-center justify-between md:mb-6">
+        <p className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-white/45 md:text-[0.78rem] md:tracking-[0.16em]">
+          {filteredAthletes.length} profil
+          {filteredAthletes.length > 1 ? "s" : ""}
+        </p>
+
+        <p className="text-[0.78rem] text-white/42 md:text-sm">
+          {filter === "Tous" ? "Toutes disciplines" : filter}
+        </p>
+      </div>
+
+      {/* ---------------------------------------------
           GRILLE ANIMÉE
       --------------------------------------------- */}
       <motion.div
         layout
-        className="grid gap-6 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8"
+        className="grid gap-4 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8"
       >
         <AnimatePresence mode="popLayout">
           {filteredAthletes.map((athlete, index) => (
             <motion.div
               key={athlete.slug}
               layout
-              initial={{ opacity: 0, y: 26, scale: 0.98 }}
+              initial={{ opacity: 0, y: 20, scale: 0.985 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 18, scale: 0.96 }}
+              exit={{ opacity: 0, y: 14, scale: 0.97 }}
               transition={{
-                duration: 0.4,
-                delay: index * 0.05,
+                duration: 0.38,
+                delay: index * 0.04,
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="h-full"

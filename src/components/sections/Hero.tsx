@@ -6,12 +6,16 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, CalendarDays, MapPin } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CalendarDays,
+  MapPin,
+  ChevronDown,
+} from "lucide-react";
 
 // =====================================================
 // TYPE DES SLIDES HERO
-// contentPosition permet de déplacer le texte
-// selon chaque image pour éviter les visages importants
 // =====================================================
 type HeroSlide = {
   id: number;
@@ -65,7 +69,6 @@ const heroSlides: HeroSlide[] = [
 
 // =====================================================
 // INFOS DU PROCHAIN GALA
-// Tu pourras remplacer facilement ces données plus tard
 // =====================================================
 const upcomingEvent = {
   label: "Prochain gala",
@@ -77,79 +80,47 @@ const upcomingEvent = {
 };
 
 // =====================================================
-// COMPOSANT HERO PREMIUM
+// COMPOSANT HERO PREMIUM (MOBILE ULTRA COMPACT)
 // =====================================================
 export default function Hero() {
-  // ---------------------------------
-  // Slide actuellement affichée
-  // ---------------------------------
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isEventOpen, setIsEventOpen] = useState(false);
 
-  // ---------------------------------
-  // Slide suivante
-  // ---------------------------------
   const goToNextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   };
 
-  // ---------------------------------
-  // Slide précédente
-  // ---------------------------------
   const goToPrevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
   };
 
-  // ---------------------------------
-  // Défilement automatique
-  // ---------------------------------
   useEffect(() => {
-    const interval = setInterval(() => {
-      goToNextSlide();
-    }, 5500);
-
+    const interval = setInterval(goToNextSlide, 5500);
     return () => clearInterval(interval);
   }, []);
 
-  // ---------------------------------
-  // Slide active
-  // ---------------------------------
   const activeSlide = heroSlides[currentSlide];
-
-  // ---------------------------------
-  // Date cible du prochain gala
-  // ---------------------------------
   const eventDate = new Date("2026-10-18T20:00:00");
 
-  // ---------------------------------
-  // Etat du compte à rebours
-  // ---------------------------------
   const [timeLeft, setTimeLeft] = useState({
     days: "00",
     hours: "00",
     minutes: "00",
   });
 
-  // ---------------------------------
-  // Calcul du compte à rebours
-  // Version discrète : jours / heures / minutes
-  // ---------------------------------
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = eventDate.getTime() - now;
 
       if (distance <= 0) {
-        setTimeLeft({
-          days: "00",
-          hours: "00",
-          minutes: "00",
-        });
+        setTimeLeft({ days: "00", hours: "00", minutes: "00" });
         return;
       }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
@@ -161,16 +132,10 @@ export default function Hero() {
     };
 
     updateCountdown();
-
     const interval = setInterval(updateCountdown, 60000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // ---------------------------------
-  // Positionnement dynamique du texte
-  // selon la slide
-  // ---------------------------------
   const contentPositionClasses = {
     left: "justify-start text-left",
     "center-left": "justify-start text-left md:pl-8 lg:pl-12",
@@ -188,15 +153,11 @@ export default function Hero() {
       className="
         relative overflow-hidden
         mt-[96px] md:mt-[118px] lg:mt-[126px]
-
-        /* Hauteur premium mais contenue */
-        min-h-[72vh] md:min-h-[78vh] lg:min-h-[82vh]
+        min-h-[95svh] md:min-h-[78vh] lg:min-h-[82vh]
       "
     >
       {/* =================================================
           ZONE IMAGE DU HERO
-          1) fond cover flouté pour remplir l'espace
-          2) image contain pour ne pas couper la photo
       ================================================= */}
       <div className="absolute inset-0">
         {heroSlides.map((slide, index) => (
@@ -208,7 +169,6 @@ export default function Hero() {
                 : "opacity-0 scale-[1.015]"
             }`}
           >
-            {/* Fond premium large */}
             <div className="absolute inset-0">
               <Image
                 src={slide.image}
@@ -217,16 +177,14 @@ export default function Hero() {
                 priority={index === 0}
                 sizes="100vw"
                 className="
-                  object-cover
-                  object-center
+                  object-cover object-center
                   scale-[1.04]
                   blur-[6px]
-                  brightness-[0.34]
+                  brightness-[0.28]
+                  md:brightness-[0.34]
                 "
               />
             </div>
-
-            {/* Image principale entière */}
             <div className="absolute inset-0">
               <Image
                 src={slide.image}
@@ -235,8 +193,9 @@ export default function Hero() {
                 priority={index === 0}
                 sizes="100vw"
                 className="
-                  object-contain
-                  object-center
+                  object-cover object-center
+                  opacity-75
+                  md:object-contain md:opacity-100
                 "
               />
             </div>
@@ -247,97 +206,94 @@ export default function Hero() {
       {/* =================================================
           OVERLAYS PREMIUM
       ================================================= */}
-      <div className="absolute inset-0 bg-black/28" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/72 via-black/28 to-black/46" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/20 to-white/5" />
+      <div className="absolute inset-0 bg-black/36 md:bg-black/28" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/38 to-black/54 md:from-black/72 md:via-black/28 md:to-black/46" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/35 to-white/5 md:from-black/78 md:via-black/20 md:to-white/5" />
 
-      {/* Lueurs décoratives */}
       <div className="absolute -left-20 top-16 h-48 w-48 rounded-full bg-red-500/10 blur-3xl" />
       <div className="absolute right-0 top-10 h-60 w-60 rounded-full bg-amber-400/10 blur-3xl" />
 
       {/* =================================================
-          CONTENU DU HERO
-          On ajoute du padding bottom pour laisser
-          la place au bandeau événement sans chevauchement
+          CONTENU DU HERO (COMPACTÉ SUR MOBILE)
       ================================================= */}
       <div className="relative z-10">
         <div className="container-custom">
           <div
             className={`
-              flex min-h-[72vh] md:min-h-[78vh] lg:min-h-[82vh]
-              items-center pb-[10rem] md:pb-[9rem] lg:pb-[8rem]
+              flex min-h-[95svh] md:min-h-[78vh] lg:min-h-[82vh]
+              items-start md:items-center
+              pt-5 md:pt-0
+              pb-[14rem] sm:pb-[13rem] md:pb-[9rem] lg:pb-[8rem]
               ${contentPositionClasses[activeSlide.contentPosition]}
             `}
           >
-            {/* =============================================
-                BLOC TEXTE ANIMÉ
-                La key relance l'animation à chaque slide
-                sans setState supplémentaire
-            ============================================= */}
             <div
               key={activeSlide.id}
               className={`
                 hero-text-enter
                 ${textBlockWidthClasses[activeSlide.contentPosition]}
+                w-full
               `}
             >
-              {/* Badge premium */}
+              {/* Badge premium - réduit sur mobile */}
               <span
                 className="
                   inline-flex items-center rounded-full
                   border border-white/20 bg-white/10
-                  px-4 py-2 text-[0.76rem] font-semibold uppercase
-                  tracking-[0.18em] text-white/90
+                  px-2.5 py-1 text-[0.55rem] font-semibold uppercase
+                  tracking-[0.14em] text-white/90
                   shadow-[0_10px_30px_rgba(0,0,0,0.10)]
                   backdrop-blur-md
-                  md:text-[0.82rem]
+                  sm:px-3 sm:py-1.5 sm:text-[0.62rem]
+                  md:px-4 md:py-2 md:text-[0.82rem]
                 "
               >
                 {activeSlide.badge}
               </span>
 
-              {/* Titre */}
+              {/* Titre - réduit */}
               <h1
                 className="
-                  mt-5
-                  text-4xl font-black uppercase leading-[0.95]
-                  tracking-[0.06em] text-white
+                  mt-2.5 sm:mt-3
+                  max-w-[11ch]
+                  text-[2.2rem] font-black uppercase leading-[0.92]
+                  tracking-[0.02em] text-white
                   drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]
-                  sm:text-5xl
-                  md:text-6xl
+                  sm:max-w-[12ch] sm:text-[2.5rem]
+                  md:mt-5 md:max-w-none md:text-6xl md:tracking-[0.06em]
                   lg:text-7xl
                 "
               >
                 {activeSlide.title}
               </h1>
 
-              {/* Sous-titre */}
+              {/* Sous-titre - réduit */}
               <p
                 className="
-                  mt-5
-                  text-base font-semibold text-white/95
-                  sm:text-lg
-                  md:text-2xl
+                  mt-2 max-w-[24rem]
+                  text-[0.9rem] font-semibold leading-6 text-white/95
+                  sm:text-[1rem] sm:leading-7
+                  md:mt-5 md:text-2xl
                 "
               >
                 {activeSlide.subtitle}
               </p>
 
-              {/* Description */}
+              {/* Description - réduite */}
               <p
                 className="
-                  mt-4 max-w-2xl
-                  text-sm leading-7 text-gray-200
-                  sm:text-base
-                  md:text-lg
+                  mt-2 max-w-[28rem]
+                  text-[0.85rem] leading-5 text-gray-200
+                  sm:text-[0.95rem] sm:leading-6
+                  md:mt-4 md:max-w-2xl md:text-lg
                 "
               >
                 {activeSlide.description}
               </p>
 
-              {/* Boutons CTA */}
+              {/* Boutons CTA - réduits */}
               <div
-                className={`mt-8 flex flex-col gap-4 sm:flex-row ${
+                className={`mt-4 flex flex-col gap-2 sm:flex-row sm:gap-3 ${
                   activeSlide.contentPosition === "right"
                     ? "md:justify-end"
                     : ""
@@ -346,14 +302,13 @@ export default function Hero() {
                 <Link
                   href="#disciplines"
                   className="
-                    inline-flex items-center justify-center
-                    rounded-full bg-red-600 px-7 py-3.5
+                    inline-flex min-h-[46px] items-center justify-center
+                    rounded-full bg-red-600 px-5 py-3
                     text-sm font-semibold text-white
                     shadow-[0_12px_30px_rgba(220,38,38,0.30)]
                     transition-all duration-300
-                    hover:-translate-y-[1px]
-                    hover:bg-red-700
-                    md:text-base
+                    hover:-translate-y-[1px] hover:bg-red-700
+                    md:min-h-[54px] md:px-7 md:text-base
                   "
                 >
                   Découvrir les disciplines
@@ -363,23 +318,35 @@ export default function Hero() {
                   href="#contact"
                   className="
                     inline-flex items-center justify-center
+                    text-xs font-semibold text-white/78
+                    transition hover:text-white
+                    sm:hidden
+                  "
+                >
+                  Nous contacter
+                </Link>
+
+                <Link
+                  href="#contact"
+                  className="
+                    hidden sm:inline-flex sm:min-h-[46px] sm:items-center sm:justify-center
                     rounded-full border border-white/20
-                    bg-white/12 px-7 py-3.5
+                    bg-white/12 px-5 py-3
                     text-sm font-semibold text-white
                     backdrop-blur-md
                     transition-all duration-300
                     hover:-translate-y-[1px]
                     hover:bg-white hover:text-black
-                    md:text-base
+                    md:min-h-[54px] md:px-7 md:text-base
                   "
                 >
                   Nous contacter
                 </Link>
               </div>
 
-              {/* Infos premium */}
+              {/* Infos premium - inchangé sur desktop */}
               <div
-                className={`mt-8 flex flex-wrap gap-3 ${
+                className={`mt-6 hidden flex-wrap gap-3 md:flex ${
                   activeSlide.contentPosition === "right"
                     ? "md:justify-end"
                     : ""
@@ -401,78 +368,53 @@ export default function Hero() {
       </div>
 
       {/* =================================================
-          BANDEAU ÉVÉNEMENT PREMIUM
-          Version raffinée :
-          - accent rouge/or
-          - badge billetterie ouverte
-          - compte à rebours discret
-          - rendu fin et élégant
+          BANDEAU ÉVÉNEMENT DESKTOP (inchangé)
       ================================================= */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-16 z-20 md:bottom-14 lg:bottom-12">
+      <div className="pointer-events-none absolute inset-x-0 bottom-20 z-20 hidden md:block md:bottom-14 lg:bottom-12">
         <div className="container-custom">
           <div
             className="
               pointer-events-auto
               mx-auto flex w-full max-w-5xl flex-col gap-4
               rounded-[24px] border border-white/10
-              bg-white/[0.06] px-4 py-3 text-white
+              bg-white/[0.06] px-4 py-4 text-white
               shadow-[0_12px_32px_rgba(0,0,0,0.12)]
               backdrop-blur-xl
               md:flex-row md:items-center md:justify-between md:px-5 md:py-3.5
               lg:px-6
             "
           >
-            {/* =========================================
-                Bloc gauche : accent visuel + infos gala
-            ========================================= */}
             <div className="flex min-w-0 items-start gap-4">
-              {/* Accent vertical lumineux premium */}
-              {/* Accent vertical lumineux premium avec shimmer discret */}
               <div className="event-shimmer-line hidden h-[72px] w-[3px] rounded-full md:block" />
-
               <div className="min-w-0">
-                {/* Ligne badges */}
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex rounded-full bg-red-600/85 px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-white">
+                  <span className="inline-flex rounded-full bg-red-600/85 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-white md:text-[0.62rem]">
                     {upcomingEvent.label}
                   </span>
-
-                  {/* Badge billetterie avec pulse ultra discret */}
-                  <span className="event-ticket-badge inline-flex rounded-full border border-amber-300/25 bg-amber-400/10 px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-amber-200">
+                  <span className="event-ticket-badge inline-flex rounded-full border border-amber-300/25 bg-amber-400/10 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-amber-200 md:text-[0.62rem]">
                     Billetterie ouverte
                   </span>
                 </div>
-
-                {/* Titre */}
-                <h2 className="mt-2 text-base font-extrabold text-white md:text-lg lg:text-xl">
+                <h2 className="mt-3 text-[1.05rem] font-extrabold leading-7 text-white md:mt-2 md:text-lg lg:text-xl">
                   {upcomingEvent.title}
                 </h2>
-
-                {/* Meta infos */}
-                <div className="mt-2 flex flex-col gap-1.5 text-xs text-white/85 md:flex-row md:flex-wrap md:items-center md:gap-4 md:text-sm">
+                <div className="mt-3 flex flex-col gap-2 text-[0.9rem] text-white/85 md:mt-2 md:flex-row md:flex-wrap md:items-center md:gap-4 md:text-sm">
                   <span className="inline-flex items-center gap-2">
-                    <CalendarDays size={14} />
+                    <CalendarDays size={15} />
                     {upcomingEvent.date}
                   </span>
-
                   <span className="inline-flex items-center gap-2">
-                    <MapPin size={14} />
+                    <MapPin size={15} />
                     {upcomingEvent.location}
                   </span>
                 </div>
               </div>
             </div>
-
-            {/* =========================================
-                Bloc droit : countdown + CTA
-            ========================================= */}
             <div className="flex flex-col gap-3 md:items-end">
-              {/* Compte à rebours discret */}
               <div className="flex flex-wrap items-center gap-2 md:justify-end">
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/55">
+                <span className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/55 md:text-[0.68rem] md:tracking-[0.18em]">
                   Début dans
                 </span>
-
                 <div className="flex items-center gap-2">
                   <div className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/90">
                     {timeLeft.days}j
@@ -485,19 +427,17 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
-
-              {/* CTA gala */}
               <Link
                 href={upcomingEvent.href}
                 className="
-                  inline-flex shrink-0 items-center justify-center
+                  inline-flex min-h-[52px] shrink-0 items-center justify-center
                   rounded-full border border-white/15
                   bg-white/88 px-4 py-2.5
-                  text-xs font-semibold text-black
+                  text-sm font-semibold text-black
                   transition-all duration-300
                   hover:-translate-y-[1px]
                   hover:bg-red-600 hover:text-white
-                  md:px-5 md:text-sm
+                  md:min-h-0 md:px-5 md:text-sm
                 "
               >
                 {upcomingEvent.cta}
@@ -508,57 +448,151 @@ export default function Hero() {
       </div>
 
       {/* =================================================
-          CONTRÔLES DU CAROUSEL
+          MINI DRAWER ÉVÉNEMENT MOBILE (ENCORE PLUS COMPACT)
       ================================================= */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20">
+      <div className="pointer-events-none absolute inset-x-0 bottom-16 z-20 md:hidden">
+        <div className="container-custom">
+          <div className="pointer-events-auto mx-auto w-full max-w-xl">
+            <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.07] backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.16)]">
+              <button
+                type="button"
+                onClick={() => setIsEventOpen((prev) => !prev)}
+                className="flex w-full items-center justify-between gap-2 px-3 py-3 text-left"
+                aria-expanded={isEventOpen}
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="inline-flex rounded-full bg-red-600/85 px-2 py-0.5 text-[0.5rem] font-bold uppercase tracking-[0.14em] text-white">
+                      {upcomingEvent.label}
+                    </span>
+                    <span className="inline-flex rounded-full border border-amber-300/25 bg-amber-400/10 px-2 py-0.5 text-[0.5rem] font-bold uppercase tracking-[0.14em] text-amber-200">
+                      Ouvert
+                    </span>
+                  </div>
+                  <p className="mt-2 truncate text-[0.9rem] font-extrabold text-white">
+                    {upcomingEvent.title}
+                  </p>
+                  <p className="mt-0.5 text-[0.7rem] text-white/68">
+                    {upcomingEvent.date}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <div className="rounded-full border border-white/10 bg-white/8 px-2.5 py-1 text-[0.65rem] font-semibold text-white/90">
+                    {timeLeft.days}j
+                  </div>
+                  <ChevronDown
+                    size={16}
+                    className={`text-white/75 transition-transform duration-300 ${
+                      isEventOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+              </button>
+
+              <div
+                className={`grid transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isEventOpen
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div className="border-t border-white/10 px-3 pb-3 pt-2">
+                    <div className="space-y-1.5 text-[0.8rem] text-white/82">
+                      <p className="inline-flex items-center gap-1.5">
+                        <CalendarDays size={13} />
+                        {upcomingEvent.date}
+                      </p>
+                      <p className="inline-flex items-center gap-1.5">
+                        <MapPin size={13} />
+                        {upcomingEvent.location}
+                      </p>
+                    </div>
+
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="rounded-full border border-white/10 bg-white/8 px-2.5 py-1 text-[0.7rem] font-semibold text-white/90">
+                        {timeLeft.days}j
+                      </div>
+                      <div className="rounded-full border border-white/10 bg-white/8 px-2.5 py-1 text-[0.7rem] font-semibold text-white/90">
+                        {timeLeft.hours}h
+                      </div>
+                      <div className="rounded-full border border-white/10 bg-white/8 px-2.5 py-1 text-[0.7rem] font-semibold text-white/90">
+                        {timeLeft.minutes}m
+                      </div>
+                    </div>
+
+                    <Link
+                      href={upcomingEvent.href}
+                      className="
+                        mt-3 inline-flex min-h-[42px] w-full items-center justify-center
+                        rounded-full border border-white/15
+                        bg-white/92 px-4 py-2.5
+                        text-xs font-semibold text-black
+                        transition-all duration-300
+                        hover:bg-red-600 hover:text-white
+                      "
+                    >
+                      {upcomingEvent.cta}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* =================================================
+          CONTRÔLES DU CAROUSEL (RÉDUITS SUR MOBILE)
+      ================================================= */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 md:bottom-6">
         <div className="container-custom flex items-center justify-between gap-4">
-          {/* Flèches */}
-          <div className="pointer-events-auto flex items-center gap-3">
+          <div className="pointer-events-auto flex items-center gap-2">
             <button
               type="button"
               onClick={goToPrevSlide}
               aria-label="Slide précédente"
               className="
-                inline-flex h-11 w-11 items-center justify-center
+                inline-flex h-8 w-8 items-center justify-center
                 rounded-full border border-white/20
                 bg-white/10 text-white
                 backdrop-blur-md
                 transition-all duration-300
                 hover:bg-white hover:text-black
+                md:h-11 md:w-11
               "
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={16} className="md:h-5 md:w-5" />
             </button>
-
             <button
               type="button"
               onClick={goToNextSlide}
               aria-label="Slide suivante"
               className="
-                inline-flex h-11 w-11 items-center justify-center
+                inline-flex h-8 w-8 items-center justify-center
                 rounded-full border border-white/20
                 bg-white/10 text-white
                 backdrop-blur-md
                 transition-all duration-300
                 hover:bg-white hover:text-black
+                md:h-11 md:w-11
               "
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={16} className="md:h-5 md:w-5" />
             </button>
           </div>
 
-          {/* Indicateurs */}
-          <div className="pointer-events-auto flex items-center gap-2">
+          <div className="pointer-events-auto flex items-center gap-1.5">
             {heroSlides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
                 aria-label={`Aller à la slide ${index + 1}`}
                 onClick={() => setCurrentSlide(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide
-                    ? "w-10 bg-white"
-                    : "w-2.5 bg-white/40 hover:bg-white/70"
+                    ? "w-7 bg-white md:w-10"
+                    : "w-2 bg-white/40 hover:bg-white/70"
                 }`}
               />
             ))}

@@ -4,6 +4,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
+import ClubMarquee from "@/components/sections/ClubsMarquee";
 import Disciplines from "@/components/sections/Disciplines";
 import CTA from "@/components/sections/CTA";
 import Footer from "@/components/layout/Footer";
@@ -78,6 +79,7 @@ export default function Home() {
           <Hero />
         </section>
 
+        <ClubMarquee />
         <Disciplines />
         <CTA />
       </main>

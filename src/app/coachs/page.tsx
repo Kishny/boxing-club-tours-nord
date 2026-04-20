@@ -3,48 +3,31 @@
 // =====================================================
 // IMPORTS
 // =====================================================
-"use client";
-
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import Image from "next/image";
+import Button from "@/components/ui/Button";
 import {
   ArrowRight,
   ChevronDown,
   Dumbbell,
-  ShieldCheck,
   Sparkles,
   Users,
   Target,
   Flame,
+  ShieldCheck,
 } from "lucide-react";
-
-// =====================================================
-// TYPE DES COACHS
-// =====================================================
-type Coach = {
-  id: number;
-  name: string;
-  role: string;
-  specialty: string;
-  experience: string;
-  description: string;
-  philosophy: string;
-  strengths: string[];
-  image: string;
-  accent: string;
-};
+import type { Coach } from "@/types";
 
 // =====================================================
 // DONNÉES DES COACHS
-// Remplace les images et les contenus par les vraies infos
 // =====================================================
 const coaches: Coach[] = [
   {
     id: 1,
-    name: "Coach Principal",
+    name: "Brian MACE",
     role: "Head Coach",
     specialty: "Kickboxing • K1 Rules",
     experience: "Encadrement technique & progression compétitive",
@@ -53,12 +36,12 @@ const coaches: Coach[] = [
     philosophy:
       "Former des pratiquants solides, disciplinés et capables de progresser durablement dans un cadre clair et motivant.",
     strengths: ["Technique", "Exigence", "Lecture du combat"],
-    image: "/images/coach-1.png",
+    image: "/images/coachs/brian.jpg",
     accent: "#ef4444",
   },
   {
     id: 2,
-    name: "Coach Technique",
+    name: "Jean LOU",
     role: "Technique Coach",
     specialty: "Full Contact • Low Kick",
     experience: "Construction gestuelle & précision du travail debout",
@@ -67,12 +50,12 @@ const coaches: Coach[] = [
     philosophy:
       "Construire une boxe lisible, efficace et disciplinée, en travaillant avec rigueur les fondamentaux et l’intelligence de combat.",
     strengths: ["Précision", "Structure", "Pédagogie"],
-    image: "/images/coach-2.png",
+    image: "/images/coachs/jean.png",
     accent: "#f59e0b",
   },
   {
     id: 3,
-    name: "Coach Performance",
+    name: "Leslie DEL PIERRO",
     role: "Performance Coach",
     specialty: "Condition physique • Vitesse • Réactivité",
     experience: "Préparation physique & intensité d’entraînement",
@@ -81,7 +64,7 @@ const coaches: Coach[] = [
     philosophy:
       "Faire émerger un mental fort, une condition solide et une présence physique capable de soutenir le travail technique dans la durée.",
     strengths: ["Cardio", "Explosivité", "Mental"],
-    image: "/images/coach-3.png",
+    image: "/images/coachs/leslie.png",
     accent: "#facc15",
   },
 ];
@@ -90,52 +73,27 @@ const coaches: Coach[] = [
 // COMPOSANT PAGE COACHS PREMIUM
 // =====================================================
 export default function CoachesPage() {
-  // ---------------------------------------------------
-  // Etat d'ouverture des cartes sur mobile
-  // ---------------------------------------------------
-  const [openCoachId, setOpenCoachId] = useState<number | null>(1);
+  const [openMethodId, setOpenMethodId] = useState<number | null>(1);
+  const [openMobileCard, setOpenMobileCard] = useState<number | null>(1);
 
-  // ---------------------------------------------------
-  // Ouvre / ferme une carte mobile
-  // ---------------------------------------------------
-  const toggleCoach = (coachId: number) => {
-    setOpenCoachId((prev) => (prev === coachId ? null : coachId));
+  const toggleMethod = (methodId: number) => {
+    setOpenMethodId((prev) => (prev === methodId ? null : methodId));
   };
 
   return (
     <>
-      {/* =================================
-          NAVBAR
-      ================================= */}
       <Navbar />
 
-      {/* =================================
-          CONTENU PRINCIPAL
-      ================================= */}
       <main className="bg-[#070707] text-white">
-        {/* =================================================
-            HERO PREMIUM
-        ================================================= */}
-        <section className="relative overflow-hidden border-b border-white/10 pt-[150px] pb-16 md:pt-[185px] md:pb-20 lg:pb-24">
-          {/* ---------------------------------------------
-              DÉCORS DE FOND
-          --------------------------------------------- */}
+        <section className="relative overflow-hidden border-b border-white/10 pt-[120px] pb-8 md:pt-[185px] md:pb-20 lg:pb-24">
           <div className="pointer-events-none absolute inset-0">
-            {/* Halos */}
-            <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-red-600/18 blur-3xl" />
-            <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-amber-400/14 blur-3xl" />
-            <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-white/6 blur-3xl" />
-
-            {/* Dégradé */}
+            <div className="absolute -left-20 top-6 h-40 w-40 rounded-full bg-red-600/16 blur-3xl md:top-10 md:h-72 md:w-72 md:bg-red-600/18" />
+            <div className="absolute right-0 top-0 h-44 w-44 rounded-full bg-amber-400/12 blur-3xl md:h-80 md:w-80 md:bg-amber-400/14" />
+            <div className="absolute bottom-0 left-1/3 h-36 w-36 rounded-full bg-white/5 blur-3xl md:h-72 md:w-72 md:bg-white/6" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#121212] via-[#0a0a0a] to-[#050505]" />
+            <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(255,255,255,0.26)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.26)_1px,transparent_1px)] [background-size:28px_28px] md:opacity-[0.05] md:[background-size:34px_34px]" />
+            <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(135deg,rgba(255,255,255,0.30)_1px,transparent_1px)] [background-size:24px_24px] md:opacity-[0.07] md:[background-size:28px_28px]" />
 
-            {/* Trame technique */}
-            <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(rgba(255,255,255,0.30)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.30)_1px,transparent_1px)] [background-size:34px_34px]" />
-
-            {/* Lignes diagonales */}
-            <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(135deg,rgba(255,255,255,0.30)_1px,transparent_1px)] [background-size:28px_28px]" />
-
-            {/* Anneaux centraux */}
             <div className="absolute inset-0 hidden items-center justify-center md:flex">
               <div className="relative h-[420px] w-[420px]">
                 <div className="absolute inset-0 rounded-full border border-white/8" />
@@ -145,23 +103,17 @@ export default function CoachesPage() {
               </div>
             </div>
 
-            {/* Voile */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_40%)]" />
           </div>
 
-          {/* ---------------------------------------------
-              CONTENU HERO
-          --------------------------------------------- */}
           <div className="container-custom relative z-10">
             <div className="mx-auto max-w-5xl text-center">
-              {/* Badge */}
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-amber-300 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md">
-                <Sparkles size={14} />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.56rem] font-bold uppercase tracking-[0.12em] text-amber-300 shadow-[0_8px_20px_rgba(0,0,0,0.16)] backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[0.62rem] md:px-4 md:py-2 md:text-[0.72rem] md:tracking-[0.18em]">
+                <Sparkles size={11} className="md:h-[14px] md:w-[14px]" />
                 Encadrement du club
               </span>
 
-              {/* Titre */}
-              <h1 className="mt-5 text-4xl font-black uppercase leading-[0.95] tracking-[0.04em] text-white sm:text-5xl md:text-6xl xl:text-7xl">
+              <h1 className="mt-3 text-[2rem] font-black uppercase leading-[0.9] tracking-[0.025em] text-white sm:text-[2.5rem] md:mt-5 md:text-6xl md:tracking-[0.04em] xl:text-7xl">
                 Les coachs qui
                 <br className="hidden sm:block" />
                 <span className="block bg-gradient-to-r from-red-500 via-white to-amber-300 bg-clip-text text-transparent">
@@ -169,44 +121,122 @@ export default function CoachesPage() {
                 </span>
               </h1>
 
-              {/* Intro */}
-              <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/70 sm:text-base md:text-lg">
-                L’encadrement du club repose sur l’exigence, la pédagogie, la
-                lecture technique et l’accompagnement humain. Découvrez celles
-                et ceux qui transmettent l’identité du Boxing Club.
+              <p className="mx-auto mt-3 max-w-[23rem] text-[0.88rem] leading-5 text-white/68 sm:max-w-[30rem] sm:text-[0.94rem] sm:leading-6 md:mt-5 md:max-w-3xl md:text-lg md:leading-7">
+                Exigence, pédagogie, lecture technique et accompagnement humain :
+                découvre l’encadrement qui donne sa vraie colonne vertébrale au
+                club.
               </p>
 
-              {/* Tags */}
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-semibold text-white/80">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:mt-8 md:gap-3">
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
                   Exigence
                 </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-semibold text-white/80">
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
                   Pédagogie
                 </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-semibold text-white/80">
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
                   Progression
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-semibold text-white/80">
-                  Esprit combat
                 </span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* =================================================
-            BLOC INTRO / MÉTHODE
-        ================================================= */}
-        <section className="relative overflow-hidden py-12 md:py-14 lg:py-16">
+        <section className="relative overflow-hidden py-6 md:py-14 lg:py-16">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-0 top-10 h-48 w-48 rounded-full bg-red-600/10 blur-3xl" />
-            <div className="absolute right-0 bottom-0 h-52 w-52 rounded-full bg-amber-400/10 blur-3xl" />
+            <div className="absolute left-0 top-10 h-40 w-40 rounded-full bg-red-600/10 blur-3xl md:h-48 md:w-48" />
+            <div className="absolute right-0 bottom-0 h-44 w-44 rounded-full bg-amber-400/10 blur-3xl md:h-52 md:w-52" />
           </div>
 
           <div className="container-custom relative z-10">
-            <div className="grid gap-6 lg:grid-cols-3">
-              {/* Carte 1 */}
+            <div className="space-y-3 md:hidden">
+              {[
+                {
+                  id: 1,
+                  icon: <Target size={20} />,
+                  iconClasses:
+                    "border-red-400/20 bg-red-500/10 text-red-400",
+                  title: "Lecture précise",
+                  subtitle: "Lecture claire des besoins et axes de progression.",
+                  description:
+                    "Chaque coach accompagne la progression avec une lecture claire des besoins du pratiquant, du rythme de travail et des axes d’amélioration.",
+                },
+                {
+                  id: 2,
+                  icon: <Users size={20} />,
+                  iconClasses:
+                    "border-amber-300/20 bg-amber-300/10 text-amber-300",
+                  title: "Encadrement humain",
+                  subtitle:
+                    "Confiance, écoute et qualité du cadre d’apprentissage.",
+                  description:
+                    "La technique compte, mais l’attention humaine, la confiance et la qualité du cadre d’apprentissage font aussi la différence.",
+                },
+                {
+                  id: 3,
+                  icon: <Dumbbell size={20} />,
+                  iconClasses: "border-white/15 bg-white/[0.08] text-white",
+                  title: "Travail exigeant",
+                  subtitle:
+                    "Un cadre solide, motivant et fidèle à l’esprit du club.",
+                  description:
+                    "L’objectif reste le même : faire grandir chaque pratiquant dans un environnement solide, motivant et fidèle à l’esprit du club.",
+                },
+              ].map((item) => (
+                <article
+                  key={item.id}
+                  className="overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.05] shadow-[0_14px_30px_rgba(0,0,0,0.16)] backdrop-blur-xl"
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleMethod(item.id)}
+                    className="relative flex w-full items-center gap-3 px-4 py-4 text-left"
+                    aria-expanded={openMethodId === item.id}
+                  >
+                    <div
+                      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${item.iconClasses}`}
+                    >
+                      {item.icon}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <h2 className="text-[1rem] font-black text-white">
+                        {item.title}
+                      </h2>
+                      <p className="mt-1 text-[0.82rem] leading-5 text-white/58">
+                        {item.subtitle}
+                      </p>
+                    </div>
+
+                    <div
+                      className={`shrink-0 transition-transform duration-300 ${
+                        openMethodId === item.id ? "rotate-180" : ""
+                      }`}
+                    >
+                      <ChevronDown size={20} className="text-white/70" />
+                    </div>
+                  </button>
+
+                  <div
+                    className={`grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      openMethodId === item.id
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-80"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="border-t border-white/10 px-4 pb-4 pt-3">
+                        <p className="text-[0.84rem] leading-6 text-white/68">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="hidden gap-6 md:grid lg:grid-cols-3">
               <div className="rounded-[30px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_18px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-red-400/20 bg-red-500/10 text-red-400">
                   <Target size={22} />
@@ -221,7 +251,6 @@ export default function CoachesPage() {
                 </p>
               </div>
 
-              {/* Carte 2 */}
               <div className="rounded-[30px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_18px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-300">
                   <Users size={22} />
@@ -235,7 +264,6 @@ export default function CoachesPage() {
                 </p>
               </div>
 
-              {/* Carte 3 */}
               <div className="rounded-[30px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_18px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/[0.08] text-white">
                   <Dumbbell size={22} />
@@ -244,48 +272,56 @@ export default function CoachesPage() {
                   Travail exigeant
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-white/65 md:text-base">
-                  L’objectif reste le même : faire grandir chaque pratiquant dans
-                  un environnement solide, motivant et fidèle à l’esprit du club.
+                  L’objectif reste le même : faire grandir chaque pratiquant
+                  dans un environnement solide, motivant et fidèle à l’esprit du
+                  club.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* =================================================
-            SECTION COACHS
-            MOBILE : cartes compactes et dépliantes
-            DESKTOP : grandes cartes premium
-        ================================================= */}
-        <section className="relative overflow-hidden pb-14 md:pb-16 lg:pb-20">
+        <section className="relative overflow-hidden pb-10 md:pb-16 lg:pb-20">
           <div className="container-custom relative z-10">
-            <div className="flex flex-col gap-8 md:gap-10">
+            <div className="flex flex-col gap-4 md:gap-10">
               {coaches.map((coach, index) => {
-                const isOpen = openCoachId === coach.id;
+                const isOpen = openMobileCard === coach.id;
                 const isEven = index % 2 === 0;
 
                 return (
                   <article
                     key={coach.id}
-                    className="rounded-[34px] border border-white/10 bg-white/[0.05] shadow-[0_20px_46px_rgba(0,0,0,0.22)] backdrop-blur-xl overflow-hidden"
+                    className="overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.05] shadow-[0_16px_34px_rgba(0,0,0,0.18)] backdrop-blur-xl md:rounded-[34px] md:shadow-[0_20px_46px_rgba(0,0,0,0.22)]"
                   >
-                    {/* =====================================
-                        VERSION MOBILE / TABLETTE
-                        Carte compacte dépliante
-                    ===================================== */}
                     <div className="block xl:hidden">
-                      {/* Header carte mobile */}
                       <button
                         type="button"
-                        onClick={() => toggleCoach(coach.id)}
-                        className="flex w-full items-center gap-4 p-4 text-left sm:p-5"
+                        onClick={() =>
+                          setOpenMobileCard((prev) =>
+                            prev === coach.id ? null : coach.id
+                          )
+                        }
+                        className="relative flex w-full items-center gap-3 p-4 text-left sm:gap-4 sm:p-5"
                         aria-expanded={isOpen}
                       >
-                        {/* Avatar compact */}
                         <div
-                          className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06]"
+                          className="pointer-events-none absolute inset-0 opacity-80"
                           style={{
-                            boxShadow: `0 0 24px ${coach.accent}22`,
+                            background: `radial-gradient(circle at top right, ${coach.accent}16 0%, transparent 35%)`,
+                          }}
+                        />
+
+                        <div
+                          className="absolute inset-x-0 top-0 h-[2px]"
+                          style={{
+                            background: `linear-gradient(to right, ${coach.accent}, rgba(255,255,255,0.4), transparent)`,
+                          }}
+                        />
+
+                        <div
+                          className="relative z-10 h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] sm:h-16 sm:w-16"
+                          style={{
+                            boxShadow: `0 0 22px ${coach.accent}18`,
                           }}
                         >
                           <Image
@@ -297,35 +333,35 @@ export default function CoachesPage() {
                           />
                         </div>
 
-                        {/* Infos compactes */}
-                        <div className="min-w-0 flex-1">
+                        <div className="relative z-10 min-w-0 flex-1">
                           <p
-                            className="text-[0.68rem] font-bold uppercase tracking-[0.16em]"
+                            className="text-[0.62rem] font-bold uppercase tracking-[0.14em] sm:text-[0.68rem] sm:tracking-[0.16em]"
                             style={{ color: coach.accent }}
                           >
                             {coach.role}
                           </p>
 
-                          <h2 className="mt-1 text-lg font-black text-white sm:text-xl">
+                          <h2 className="mt-1 text-[1rem] font-black leading-5 text-white sm:text-xl">
                             {coach.name}
                           </h2>
 
-                          <p className="mt-1 text-sm text-white/60">
+                          <p className="mt-1 text-[0.82rem] leading-5 text-white/60 sm:text-sm">
                             {coach.specialty}
                           </p>
                         </div>
 
-                        {/* Chevron */}
                         <div
-                          className={`transition-transform duration-300 ${
+                          className={`relative z-10 shrink-0 transition-transform duration-300 ${
                             isOpen ? "rotate-180" : ""
                           }`}
                         >
-                          <ChevronDown size={22} className="text-white/70" />
+                          <ChevronDown
+                            size={20}
+                            className="text-white/70 sm:h-[22px] sm:w-[22px]"
+                          />
                         </div>
                       </button>
 
-                      {/* Contenu dépliant mobile */}
                       <div
                         className={`grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                           isOpen
@@ -334,76 +370,63 @@ export default function CoachesPage() {
                         }`}
                       >
                         <div className="overflow-hidden">
-                          <div className="border-t border-white/10 px-4 pb-5 pt-4 sm:px-5">
-                            {/* Ligne accent */}
-                            <div
-                              className="mb-4 h-[2px] w-full rounded-full"
-                              style={{
-                                background: `linear-gradient(to right, ${coach.accent}, rgba(255,255,255,0.4), transparent)`,
-                              }}
-                            />
+                          <div className="border-t border-white/10 px-4 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
+                            <div className="rounded-[18px] border border-white/10 bg-black/20 p-3.5 sm:p-4">
+                              <p className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-white/50 sm:text-[0.68rem]">
+                                Expérience
+                              </p>
+                              <p className="mt-2 text-[0.84rem] leading-6 text-white/72 sm:text-sm sm:leading-7">
+                                {coach.experience}
+                              </p>
+                            </div>
 
-                            <p className="text-sm leading-7 text-white/68">
+                            <p className="mt-3 text-[0.84rem] leading-6 text-white/68 sm:text-sm sm:leading-7">
                               {coach.description}
                             </p>
 
-                            <div className="mt-4 rounded-[22px] border border-white/8 bg-white/[0.04] p-4">
-                              <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/70">
+                            <div className="mt-3 rounded-[18px] border border-white/8 bg-white/[0.04] p-3.5 sm:p-4">
+                              <p className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-white/55 sm:text-[0.68rem]">
                                 Philosophie
                               </p>
-                              <p className="mt-2 text-sm leading-7 text-white/68">
+                              <p className="mt-2 text-[0.84rem] leading-6 text-white/68 sm:text-sm sm:leading-7">
                                 {coach.philosophy}
                               </p>
                             </div>
 
-                            <div className="mt-4 flex flex-wrap gap-2.5">
+                            <div className="mt-3 flex flex-wrap gap-2">
                               {coach.strengths.map((strength) => (
                                 <span
                                   key={strength}
-                                  className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[0.72rem] font-semibold text-white/80"
+                                  className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/80 sm:px-3 sm:py-1.5 sm:text-[0.72rem]"
                                 >
                                   {strength}
                                 </span>
                               ))}
                             </div>
 
-                            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                              <Link
-                                href="/contact"
-                                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/[0.12]"
-                              >
-                                Contacter le club
-                              </Link>
+                            <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
+                              <Button asChild variant="secondary" size="md">
+                                <Link href="/contact">Contacter le club</Link>
+                              </Button>
 
-                              <Link
-                                href="/inscription"
-                                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:bg-red-600 hover:text-white"
-                              >
-                                S’inscrire
-                                <ArrowRight size={16} />
-                              </Link>
+                              <Button asChild variant="primary" size="md">
+                                <Link href="/inscription">
+                                  S’inscrire
+                                  <ArrowRight size={15} />
+                                </Link>
+                              </Button>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* =====================================
-                        VERSION DESKTOP
-                        Grande carte premium
-                    ===================================== */}
-                    <div
-                      className={`hidden xl:grid xl:grid-cols-[0.92fr_1.08fr] ${
-                        isEven ? "" : ""
-                      }`}
-                    >
-                      {/* Bloc image / impact */}
+                    <div className="hidden xl:grid xl:grid-cols-[0.92fr_1.08fr]">
                       <div
                         className={`relative min-h-[420px] overflow-hidden ${
                           isEven ? "order-1" : "order-2"
                         }`}
                       >
-                        {/* Image */}
                         <div className="absolute inset-0">
                           <Image
                             src={coach.image}
@@ -414,7 +437,6 @@ export default function CoachesPage() {
                           />
                         </div>
 
-                        {/* Overlays */}
                         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/15 to-black/65" />
                         <div
                           className="absolute inset-0"
@@ -423,10 +445,8 @@ export default function CoachesPage() {
                           }}
                         />
 
-                        {/* Lignes techniques */}
                         <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(135deg,rgba(255,255,255,0.45)_1px,transparent_1px)] [background-size:28px_28px]" />
 
-                        {/* Contenu image */}
                         <div className="relative z-10 flex h-full flex-col justify-between p-8">
                           <div className="flex items-start justify-between">
                             <span
@@ -463,13 +483,11 @@ export default function CoachesPage() {
                         </div>
                       </div>
 
-                      {/* Bloc texte / contenu */}
                       <div
                         className={`relative overflow-hidden p-8 lg:p-10 ${
                           isEven ? "order-2" : "order-1"
                         }`}
                       >
-                        {/* Accent */}
                         <div
                           className="absolute inset-x-0 top-0 h-[2px]"
                           style={{
@@ -477,7 +495,6 @@ export default function CoachesPage() {
                           }}
                         />
 
-                        {/* Halo interne */}
                         <div
                           className="pointer-events-none absolute inset-0"
                           style={{
@@ -487,12 +504,10 @@ export default function CoachesPage() {
 
                         <div className="relative z-10 flex h-full flex-col justify-between">
                           <div>
-                            {/* Intro */}
                             <p className="text-base leading-8 text-white/70">
                               {coach.description}
                             </p>
 
-                            {/* Philosophie */}
                             <div className="mt-7 rounded-[26px] border border-white/10 bg-black/20 p-5 backdrop-blur-md">
                               <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/70">
                                 Philosophie d’encadrement
@@ -502,7 +517,6 @@ export default function CoachesPage() {
                               </p>
                             </div>
 
-                            {/* Forces */}
                             <div className="mt-7">
                               <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/70">
                                 Axes forts
@@ -522,24 +536,41 @@ export default function CoachesPage() {
                                 ))}
                               </div>
                             </div>
+
+                            <div className="mt-7 rounded-[26px] border border-white/10 bg-white/[0.04] p-5">
+                              <div className="flex items-start gap-3">
+                                <div
+                                  className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.06]"
+                                  style={{ color: coach.accent }}
+                                >
+                                  <ShieldCheck size={18} />
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-semibold text-white">
+                                    Vision d’encadrement
+                                  </p>
+                                  <p className="mt-2 text-sm leading-7 text-white/62">
+                                    Un accompagnement structuré, exigeant et
+                                    humain pour faire progresser durablement
+                                    chaque profil.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
-                          {/* CTA */}
                           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                            <Link
-                              href="/contact"
-                              className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/[0.12]"
-                            >
-                              Échanger avec le club
-                            </Link>
+                            <Button asChild variant="secondary" size="lg">
+                              <Link href="/contact">Échanger avec le club</Link>
+                            </Button>
 
-                            <Link
-                              href="/inscription"
-                              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:-translate-y-[1px] hover:bg-red-600 hover:text-white"
-                            >
-                              Rejoindre le club
-                              <ArrowRight size={16} />
-                            </Link>
+                            <Button asChild variant="primary" size="lg">
+                              <Link href="/inscription">
+                                Rejoindre le club
+                                <ArrowRight size={16} />
+                              </Link>
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -552,9 +583,6 @@ export default function CoachesPage() {
         </section>
       </main>
 
-      {/* =================================
-          FOOTER
-      ================================= */}
       <Footer />
     </>
   );

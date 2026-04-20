@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ExternalLink } from "lucide-react";
+import {
+  Menu,
+  X,
+  ExternalLink,
+  Clock3,
+  BadgeEuro,
+} from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 
 // =====================================================
@@ -18,10 +24,14 @@ type NavLink = {
   href: string;
 };
 
+type UtilityLink = {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+};
+
 // =====================================================
-// LIENS INTERNES DU SITE
-// On enlève le "highlight" permanent sur Disciplines
-// pour éviter qu'il ressemble toujours à une page active
+// LIENS INTERNES PRINCIPAUX
 // =====================================================
 const navLinks: NavLink[] = [
   { name: "Accueil", href: "/" },
@@ -30,6 +40,22 @@ const navLinks: NavLink[] = [
   { name: "Athlètes", href: "/athletes" },
   { name: "Historique", href: "/historique" },
   { name: "Contact", href: "/contact" },
+];
+
+// =====================================================
+// LIENS SPÉCIAUX
+// =====================================================
+const utilityLinks: UtilityLink[] = [
+  {
+    name: "Horaires",
+    href: "/horaires",
+    icon: Clock3,
+  },
+  {
+    name: "Tarifs",
+    href: "/tarifs",
+    icon: BadgeEuro,
+  },
 ];
 
 // =====================================================
@@ -42,7 +68,6 @@ const ffkmdaLink = {
 
 // =====================================================
 // RÉSEAUX SOCIAUX DU CLUB
-// IMPORTANT : remplace les href par les vrais liens
 // =====================================================
 const socialLinks = [
   {
@@ -67,7 +92,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   // ---------------------------------------------------
-  // Etat du scroll pour compacter légèrement le header
+  // Etat du scroll
   // ---------------------------------------------------
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -107,15 +132,58 @@ export default function Navbar() {
           TOPBAR PREMIUM
       ================================================= */}
       <div className="hidden border-b border-white/10 bg-black text-white xl:block">
-        <div className="container-custom flex items-center justify-between py-2">
-          {/* Texte à gauche */}
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/50">
-            Boxing Club • Tours Métropole
-          </p>
+        <div className="container-custom grid grid-cols-[1fr_auto_1fr] items-center py-2">
+          {/* Gauche */}
+          <div className="justify-self-start">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-white/50">
+              Boxing Club • Tours Métropole
+            </p>
+          </div>
 
-          {/* Liens externes à droite */}
-          <div className="flex items-center gap-3">
-            {/* Lien FFKMDA */}
+          {/* Centre : Horaires / Tarifs */}
+          <div className="justify-self-center">
+            <div className="topbar-utility-pulse relative rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-md">
+              <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.18),transparent_65%)] opacity-70" />
+
+              <div className="relative z-10 flex items-center gap-1.5">
+                {utilityLinks.map((link, index) => {
+                  const isActive = pathname === link.href;
+                  const Icon = link.icon;
+
+                  return (
+                    <div key={link.name} className="flex items-center gap-1.5">
+                      <Link
+                        href={link.href}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`group inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.72rem] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
+                          isActive
+                            ? "bg-white text-black shadow-[0_8px_20px_rgba(255,255,255,0.12)]"
+                            : "text-white/78 hover:bg-white/10 hover:text-white"
+                        }`}
+                      >
+                        <Icon
+                          size={13}
+                          className={`transition-all duration-300 ${
+                            isActive
+                              ? "text-red-500"
+                              : "text-amber-300 group-hover:scale-110"
+                          }`}
+                        />
+                        <span>{link.name}</span>
+                      </Link>
+
+                      {index !== utilityLinks.length - 1 && (
+                        <span className="h-4 w-px bg-white/10" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Droite */}
+          <div className="flex items-center justify-self-end gap-3">
             <a
               href={ffkmdaLink.href}
               target="_blank"
@@ -127,10 +195,8 @@ export default function Navbar() {
               <ExternalLink size={13} />
             </a>
 
-            {/* Séparateur */}
             <span className="h-4 w-px bg-white/15" />
 
-            {/* Réseaux sociaux */}
             {socialLinks.map((social) => {
               const Icon = social.icon;
 
@@ -174,7 +240,6 @@ export default function Navbar() {
             className="group flex items-center gap-2.5 md:gap-3"
             aria-label="Retour à l'accueil"
           >
-            {/* Bloc image du logo */}
             <div
               className={`relative shrink-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isScrolled
@@ -196,7 +261,6 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Nom du club sur 2 lignes */}
             <div className="leading-[0.9]">
               <span
                 className={`block font-extrabold uppercase tracking-[0.1em] text-black transition-all duration-500 group-hover:text-red-600 ${
@@ -223,13 +287,8 @@ export default function Navbar() {
               MENU DESKTOP
           ========================================= */}
           <div className="hidden xl:flex items-center gap-4">
-            {/* Navigation principale */}
             <nav className="flex items-center gap-3 xl:gap-4 2xl:gap-5">
               {navLinks.map((link) => {
-                // -----------------------------
-                // Vérifie si le lien correspond
-                // à la route actuelle
-                // -----------------------------
                 const isActive = pathname === link.href;
 
                 return (
@@ -247,10 +306,8 @@ export default function Navbar() {
                         : "px-3 py-2 font-semibold text-gray-800 hover:bg-red-50/70 hover:text-red-600"
                     }`}
                   >
-                    {/* Texte du lien */}
                     <span className="relative z-[1]">{link.name}</span>
 
-                    {/* Effet premium discret pour la page active */}
                     {isActive && (
                       <>
                         <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-red-300/60" />
@@ -258,7 +315,6 @@ export default function Navbar() {
                       </>
                     )}
 
-                    {/* Soulignement animé pour les liens inactifs */}
                     {!isActive && (
                       <span className="pointer-events-none absolute left-3 right-3 bottom-[6px] h-[2px] scale-x-0 bg-gradient-to-r from-red-500 to-amber-400 transition-transform duration-300 origin-left group-hover:scale-x-100" />
                     )}
@@ -267,7 +323,6 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* CTA desktop */}
             <Link
               href="/inscription"
               className={`inline-flex items-center justify-center rounded-full bg-black text-white shadow-md transition-all duration-300 hover:-translate-y-[1px] hover:bg-red-600 hover:shadow-[0_10px_25px_rgba(220,38,38,0.25)] ${
@@ -282,7 +337,6 @@ export default function Navbar() {
 
           {/* =========================================
               BOUTON BURGER
-              Visible sous xl
           ========================================= */}
           <button
             type="button"
@@ -304,17 +358,12 @@ export default function Navbar() {
       <div
         className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] xl:hidden ${
           isOpen
-            ? "max-h-[950px] border-t border-black/10 bg-white/92 opacity-100 backdrop-blur-xl"
+            ? "max-h-[1100px] border-t border-black/10 bg-white/92 opacity-100 backdrop-blur-xl"
             : "max-h-0 border-t-0 opacity-0"
         }`}
       >
         <nav className="flex flex-col gap-2 px-5 py-5">
-          {/* Liens internes */}
           {navLinks.map((link) => {
-            // -----------------------------
-            // Vérifie si le lien correspond
-            // à la route actuelle
-            // -----------------------------
             const isActive = pathname === link.href;
 
             return (
@@ -331,8 +380,6 @@ export default function Navbar() {
               >
                 <span className="relative">
                   {link.name}
-
-                  {/* Petit point discret sur la page active */}
                   {isActive && (
                     <span className="ml-2 inline-block h-2 w-2 rounded-full bg-red-500 align-middle shadow-[0_0_10px_rgba(239,68,68,0.35)]" />
                   )}
@@ -341,7 +388,34 @@ export default function Navbar() {
             );
           })}
 
-          {/* Lien FFKMDA */}
+          {/* Liens spéciaux mobile */}
+          <div className="mt-2 grid grid-cols-2 gap-3">
+            {utilityLinks.map((link) => {
+              const isActive = pathname === link.href;
+              const Icon = link.icon;
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={closeMobileMenu}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`inline-flex min-h-[56px] items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-[0.9rem] font-bold uppercase tracking-[0.08em] transition-all duration-300 ${
+                    isActive
+                      ? "border-amber-300/40 bg-black text-white shadow-[0_12px_24px_rgba(0,0,0,0.14)]"
+                      : "border-black/10 bg-gradient-to-r from-black to-zinc-900 text-white hover:bg-red-600"
+                  }`}
+                >
+                  <Icon
+                    size={16}
+                    className={isActive ? "text-amber-300" : "text-red-400"}
+                  />
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
+
           <a
             href={ffkmdaLink.href}
             target="_blank"
@@ -352,7 +426,6 @@ export default function Navbar() {
             <ExternalLink size={16} />
           </a>
 
-          {/* Réseaux sociaux */}
           <div className="mt-3 flex items-center justify-center gap-3">
             {socialLinks.map((social) => {
               const Icon = social.icon;
@@ -372,7 +445,6 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* CTA mobile */}
           <Link
             href="/inscription"
             onClick={closeMobileMenu}
@@ -382,6 +454,31 @@ export default function Navbar() {
           </Link>
         </nav>
       </div>
+
+      {/* =================================================
+          STYLES LOCAUX
+      ================================================= */}
+      <style jsx>{`
+        .topbar-utility-pulse {
+          animation: topbarPulse 3.2s ease-in-out infinite;
+        }
+
+        @keyframes topbarPulse {
+          0%,
+          100% {
+            transform: translateY(0);
+            box-shadow:
+              0 0 0 rgba(239, 68, 68, 0),
+              0 0 0 rgba(251, 191, 36, 0);
+          }
+          50% {
+            transform: translateY(-1px);
+            box-shadow:
+              0 0 18px rgba(239, 68, 68, 0.12),
+              0 0 28px rgba(251, 191, 36, 0.08);
+          }
+        }
+      `}</style>
     </header>
   );
 }
