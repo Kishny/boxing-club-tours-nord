@@ -62,7 +62,7 @@ const disciplines: Discipline[] = [
       "Le kickboxing est un terme générique qui regroupe plusieurs disciplines de boxes pieds-poings, comme le Low Kick, le K1 Style, le Full Contact ou encore le Point Fighting. Il mélange héritages du Muay Thai, du karaté et de la boxe anglaise. Cette pratique développe les déplacements, le cardio, la précision, les enchaînements et la lecture du combat, sur ring ou sur tatami selon les formats.",
     profile:
       "Convient aux pratiquants qui recherchent une discipline complète pour progresser techniquement, physiquement et mentalement.",
-    image: "/images/disciplines/kickboxing.jpg",
+    image: "/images/disciplines/kickboxing.png",
     icon: "flame",
     accent: "#ef4444",
     glow: "rgba(239,68,68,0.22)",
@@ -147,7 +147,7 @@ const disciplines: Discipline[] = [
       "L’aérokick mélange mouvements de kickboxing et logique fitness en musique. Ici, il ne s’agit pas de combat, mais d’une activité collective dynamique visant la remise en forme, le cardio, la tonicité et le défoulement. Apparue avec l’essor du fitness moderne, cette pratique rend l’univers des sports de combat plus accessible, plus ludique et très efficace physiquement.",
     profile:
       "Idéal pour les personnes qui veulent bouger, se tonifier, brûler des calories et retrouver de l’énergie dans une ambiance dynamique.",
-    image: "/images/disciplines/aerokick.png",
+    image: "/images/disciplines/aero.png",
     icon: "dumbbell",
     accent: "#eab308",
     glow: "rgba(234,179,8,0.22)",

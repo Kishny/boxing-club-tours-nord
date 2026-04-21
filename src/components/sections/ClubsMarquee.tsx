@@ -16,7 +16,7 @@ const clubLogos = [
   {
     id: 1,
     name: "Boxing Club Tours Nord",
-    src: "/images/logo-blanc.png",
+    src: "/images/logo.png",
     address: "81 Av. de l'Europe • 37100 Tours",
     hours: "Lun - Ven • 18h00 à 21h00",
     info: "Club orienté progression, discipline et sports de combat encadrés.",
@@ -24,7 +24,7 @@ const clubLogos = [
   {
     id: 2,
     name: "Boxing Club La Riche",
-    src: "/images/image.png",
+    src: "/images/logo.png",
     address: "1 rue du petit Plessis • 37520 La Riche",
     hours: "Mar - Sam • 17h30 à 20h30",
     info: "Structure partenaire avec une approche technique et éducative.",
@@ -32,7 +32,7 @@ const clubLogos = [
   {
     id: 3,
     name: "Boxing Club Tours Métropole",
-    src: "/images/event-fight.png",
+    src: "/images/logo.png",
     address: "65 Av. du Général de Gaulle • 37000 Tours",
     hours: "Mer - Dim • 18h00 à 22h00",
     info: "Club engagé dans les événements, galas et accompagnement compétitif.",
