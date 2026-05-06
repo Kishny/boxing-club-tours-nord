@@ -1,53 +1,81 @@
 "use client";
 
-// =====================================================
-// IMPORTS
-// =====================================================
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AthleteCard from "./AthleteCard";
 import AthleteFilters from "./AthleteFilters";
-import { athletes } from "@/data/athletes";
+import { athletes as hardcodedAthletes } from "@/data/athletes";
+import type { Athlete } from "@/data/athletes";
 
-// =====================================================
-// COMPOSANT GRILLE ATHLÈTES
-// V2 PREMIUM MOBILE + FILTRES ULTRA PROPRES
-// =====================================================
+function hexToRgba(hex: string, alpha: number): string {
+  try {
+    const h = hex.replace("#", "");
+    const r = parseInt(h.slice(0, 2), 16);
+    const g = parseInt(h.slice(2, 4), 16);
+    const b = parseInt(h.slice(4, 6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  } catch {
+    return `rgba(239,68,68,${alpha})`;
+  }
+}
+
+const VALID_ICONS = ["flame", "trophy", "shield"] as const;
+
 export default function AthletesGrid() {
-  // ---------------------------------------------------
-  // État du filtre actif
-  // ---------------------------------------------------
+  const [athletes, setAthletes] = useState<Athlete[]>(hardcodedAthletes);
   const [filter, setFilter] = useState("Tous");
 
-  // ---------------------------------------------------
-  // Liste unique des disciplines
-  // ---------------------------------------------------
-  const disciplines = useMemo(() => {
-    return Array.from(new Set(athletes.map((athlete) => athlete.discipline)));
+  useEffect(() => {
+    fetch("/api/cms/athletes")
+      .then((r) => r.json())
+      .then((docs) => {
+        if (!Array.isArray(docs) || docs.length === 0) return;
+        const mapped: Athlete[] = (docs as Record<string, unknown>[]).map(
+          (doc, i) => {
+            const accent = (doc.accent as string) || "#ef4444";
+            const icon = VALID_ICONS.includes(doc.icon as typeof VALID_ICONS[number])
+              ? (doc.icon as Athlete["icon"])
+              : "flame";
+            return {
+              id: i + 1,
+              slug: (doc.slug as string) || `athlete-${i + 1}`,
+              name: (doc.name as string) || "",
+              discipline: (doc.discipline as string) || (doc.category as string) || "",
+              level: (doc.level as string) || "Confirmé",
+              record: (doc.record as string) || "",
+              image: (doc.photo as string) || "",
+              imagePosition: "50% 18%",
+              description: (doc.description as string) || "",
+              achievements: Array.isArray(doc.palmares) ? (doc.palmares as string[]) : [],
+              accent,
+              glow: hexToRgba(accent, 0.2),
+              icon,
+            };
+          },
+        );
+        setAthletes(mapped);
+      })
+      .catch(() => {});
   }, []);
 
-  // ---------------------------------------------------
-  // Athlètes filtrés
-  // ---------------------------------------------------
+  const disciplines = useMemo(
+    () => Array.from(new Set(athletes.map((a) => a.discipline))),
+    [athletes],
+  );
+
   const filteredAthletes = useMemo(() => {
     if (filter === "Tous") return athletes;
-    return athletes.filter((athlete) => athlete.discipline === filter);
-  }, [filter]);
+    return athletes.filter((a) => a.discipline === filter);
+  }, [filter, athletes]);
 
   return (
     <section className="container-custom py-8 pb-16 md:py-16 md:pb-32 lg:pb-36">
-      {/* ---------------------------------------------
-          FILTRES
-      --------------------------------------------- */}
       <AthleteFilters
         disciplines={disciplines}
         active={filter}
         onChange={setFilter}
       />
 
-      {/* ---------------------------------------------
-          RÉSULTAT MOBILE COMPACT
-      --------------------------------------------- */}
       <div className="mb-4 flex items-center justify-between md:mb-6">
         <p className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-white/45 md:text-[0.78rem] md:tracking-[0.16em]">
           {filteredAthletes.length} profil
@@ -59,9 +87,6 @@ export default function AthletesGrid() {
         </p>
       </div>
 
-      {/* ---------------------------------------------
-          GRILLE ANIMÉE
-      --------------------------------------------- */}
       <motion.div
         layout
         className="grid gap-4 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8"

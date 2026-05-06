@@ -1,0 +1,90 @@
+[
+  {
+    "_id": "fallback_1",
+    "club": "Tours Nord",
+    "discipline": "Boxe Anglaise",
+    "category": "Combat",
+    "color": "#ef4444",
+    "day": "Lundi",
+    "time": "18:30–19:30",
+    "audience": "Adultes",
+    "level": "Tous niveaux"
+  },
+  {
+    "_id": "fallback_2",
+    "club": "Tours Nord",
+    "discipline": "Boxe Anglaise",
+    "category": "Combat",
+    "color": "#ef4444",
+    "day": "Mercredi",
+    "time": "17:00–18:00",
+    "audience": "Enfants",
+    "level": "Débutant"
+  },
+  {
+    "_id": "fallback_3",
+    "club": "Tours Nord",
+    "discipline": "Kickboxing",
+    "category": "Combat",
+    "color": "#f97316",
+    "day": "Mardi",
+    "time": "19:00–20:30",
+    "audience": "Adultes",
+    "level": "Intermédiaire"
+  },
+  {
+    "_id": "fallback_4",
+    "club": "Tours Nord",
+    "discipline": "Savate",
+    "category": "Combat",
+    "color": "#a855f7",
+    "day": "Jeudi",
+    "time": "18:00–19:30",
+    "audience": "Adultes",
+    "level": "Tous niveaux"
+  },
+  {
+    "_id": "fallback_5",
+    "club": "Tours Métropole",
+    "discipline": "Boxe Anglaise",
+    "category": "Combat",
+    "color": "#f59e0b",
+    "day": "Lundi",
+    "time": "19:00–20:00",
+    "audience": "Adultes",
+    "level": "Tous niveaux"
+  },
+  {
+    "_id": "fallback_6",
+    "club": "Tours Métropole",
+    "discipline": "Muay Thai",
+    "category": "Combat",
+    "color": "#f59e0b",
+    "day": "Mercredi",
+    "time": "20:00–21:30",
+    "audience": "Adultes",
+    "level": "Tous niveaux"
+  },
+  {
+    "_id": "fallback_7",
+    "club": "La Riche",
+    "discipline": "Boxe Anglaise",
+    "category": "Combat",
+    "color": "#22c55e",
+    "day": "Mardi",
+    "time": "18:00–19:30",
+    "audience": "Adultes",
+    "level": "Tous niveaux"
+  },
+  {
+    "_id": "fallback_8",
+    "club": "La Riche",
+    "discipline": "Forme & Fitness",
+    "category": "Fitness",
+    "color": "#22c55e",
+    "day": "Vendredi",
+    "time": "18:30–19:30",
+    "audience": "Adultes",
+    "level": "Débutant"
+  }
+]

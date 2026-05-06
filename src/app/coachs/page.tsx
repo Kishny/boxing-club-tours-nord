@@ -3,7 +3,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
@@ -22,9 +22,9 @@ import {
 import type { Coach } from "@/types";
 
 // =====================================================
-// DONNÉES DES COACHS
+// DONNÉES DES COACHS (fallback si MongoDB vide)
 // =====================================================
-const coaches: Coach[] = [
+const hardcodedCoaches: Coach[] = [
   {
     id: 1,
     name: "Brian MACE",
@@ -73,8 +73,36 @@ const coaches: Coach[] = [
 // COMPOSANT PAGE COACHS PREMIUM
 // =====================================================
 export default function CoachesPage() {
+  const [coaches, setCoaches] = useState<Coach[]>(hardcodedCoaches);
   const [openMethodId, setOpenMethodId] = useState<number | null>(1);
   const [openMobileCard, setOpenMobileCard] = useState<number | null>(1);
+
+  useEffect(() => {
+    fetch("/api/cms/coachs")
+      .then((r) => r.json())
+      .then((docs) => {
+        if (!Array.isArray(docs) || docs.length === 0) return;
+        const mapped: Coach[] = (docs as Record<string, unknown>[]).map(
+          (doc, i) => ({
+            id: i + 1,
+            name: (doc.name as string) || "",
+            role: (doc.role as string) || "Coach",
+            specialty: (doc.specialty as string) || "",
+            experience: (doc.experience as string) || (doc.bio as string) || "",
+            description:
+              (doc.description as string) || (doc.bio as string) || "",
+            philosophy: (doc.philosophy as string) || "",
+            strengths: Array.isArray(doc.strengths)
+              ? (doc.strengths as string[])
+              : [],
+            image: (doc.photo as string) || "",
+            accent: (doc.accent as string) || "#ef4444",
+          }),
+        );
+        setCoaches(mapped);
+      })
+      .catch(() => {});
+  }, []);
 
   const toggleMethod = (methodId: number) => {
     setOpenMethodId((prev) => (prev === methodId ? null : methodId));

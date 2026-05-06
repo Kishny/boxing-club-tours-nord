@@ -4,6 +4,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { fetchCollection, hexToRgba } from "@/lib/db-fetch";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -44,14 +45,14 @@ type Discipline = {
   icon: "flame" | "shield" | "trophy" | "swords" | "dumbbell";
   accent: string;
   glow: string;
-  panel: string;
+  panel?: string;
   keywords: string[];
 };
 
 // =====================================================
 // DONNÉES DES DISCIPLINES
 // =====================================================
-const disciplines: Discipline[] = [
+const hardcodedDisciplines: Discipline[] = [
   {
     slug: "kickboxing",
     title: "Kickboxing",
@@ -197,7 +198,45 @@ function renderIcon(icon: Discipline["icon"]) {
 // PAGE DÉDIÉE DISCIPLINES
 // VERSION PREMIUM + MOBILE ULTRA COMPACTE + IMAGES
 // =====================================================
-export default function DisciplinesPage() {
+const VALID_ICONS = [
+  "flame",
+  "shield",
+  "trophy",
+  "swords",
+  "dumbbell",
+] as const;
+
+export default async function DisciplinesPage() {
+  const dbDisciplines = await fetchCollection<Record<string, unknown>>(
+    "disciplines",
+    { order: 1 },
+  );
+
+  const disciplines: Discipline[] =
+    dbDisciplines && dbDisciplines.length > 0
+      ? dbDisciplines.map((doc) => {
+          const accent = (doc.color as string) || "#ef4444";
+          const icon = VALID_ICONS.includes(
+            doc.icon as (typeof VALID_ICONS)[number],
+          )
+            ? (doc.icon as Discipline["icon"])
+            : "flame";
+          return {
+            slug: (doc.slug as string) || "",
+            title: (doc.name as string) || "",
+            category: (doc.tagline as string) || "",
+            description: (doc.description as string) || "",
+            details: (doc.details as string) || "",
+            profile: (doc.profile as string) || "",
+            image: (doc.image as string) || "",
+            icon,
+            accent,
+            glow: hexToRgba(accent, 0.22),
+            keywords: Array.isArray(doc.levels) ? (doc.levels as string[]) : [],
+          };
+        })
+      : hardcodedDisciplines;
+
   return (
     <>
       <Navbar />
@@ -483,7 +522,10 @@ export default function DisciplinesPage() {
                       />
 
                       <div
-                        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${discipline.panel} opacity-90`}
+                        className="pointer-events-none absolute inset-0 opacity-90"
+                        style={{
+                          background: `linear-gradient(135deg, ${hexToRgba(discipline.accent, 0.18)}, ${hexToRgba(discipline.accent, 0.06)}, transparent)`,
+                        }}
                       />
 
                       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_28%)]" />

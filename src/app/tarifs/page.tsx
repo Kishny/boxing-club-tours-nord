@@ -4,6 +4,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { fetchCollection } from "@/lib/db-fetch";
 import Link from "next/link";
 import {
   BadgeEuro,
@@ -44,7 +45,16 @@ type PricingPlan = {
   badge?: string;
 };
 
-const pricingPlans: PricingPlan[] = [
+const ACCENT_PALETTE = ["#22c55e", "#ef4444", "#f59e0b", "#60a5fa", "#a855f7"];
+const GLOW_PALETTE = [
+  "rgba(34,197,94,0.20)",
+  "rgba(239,68,68,0.22)",
+  "rgba(245,158,11,0.22)",
+  "rgba(96,165,250,0.22)",
+  "rgba(168,85,247,0.22)",
+];
+
+const hardcodedPricingPlans: PricingPlan[] = [
   {
     id: 1,
     name: "Formule Découverte",
@@ -103,7 +113,29 @@ const pricingPlans: PricingPlan[] = [
 // =====================================================
 // PAGE TARIFS
 // =====================================================
-export default function TarifsPage() {
+export default async function TarifsPage() {
+  const dbPricing = await fetchCollection<Record<string, unknown>>("pricing", {
+    order: 1,
+  });
+
+  const pricingPlans: PricingPlan[] =
+    dbPricing && dbPricing.length > 0
+      ? dbPricing.map((doc, i) => ({
+          id: i + 1,
+          name: (doc.title as string) || "",
+          audience: (doc.category as string) || "",
+          price: `${doc.price ?? ""}€`,
+          frequency: `/ ${(doc.period as string) || "mois"}`,
+          accent: ACCENT_PALETTE[i % ACCENT_PALETTE.length],
+          glow: GLOW_PALETTE[i % GLOW_PALETTE.length],
+          description: (doc.description as string) || "",
+          features: Array.isArray(doc.features)
+            ? (doc.features as string[])
+            : [],
+          badge: (doc.promo as string) || undefined,
+        }))
+      : hardcodedPricingPlans;
+
   return (
     <>
       <Navbar />

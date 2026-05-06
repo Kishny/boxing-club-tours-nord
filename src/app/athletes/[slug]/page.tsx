@@ -8,7 +8,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { athletes } from "@/data/athletes";
+import { athletes as hardcodedAthletes } from "@/data/athletes";
+import type { Athlete } from "@/data/athletes";
+import { fetchCollection } from "@/lib/db-fetch";
 import {
   ArrowLeft,
   ArrowRight,
@@ -19,13 +21,54 @@ import {
 } from "lucide-react";
 import MobileAthleteProfile from "./MobileAthleteProfile";
 
+// ─── DB → UI mapping ─────────────────────────────────────────────────────────
+
+const VALID_ICONS = ["flame", "trophy", "shield"] as const;
+
+function hexToRgba(hex: string, alpha: number) {
+  try {
+    const h = hex.replace("#", "");
+    return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${alpha})`;
+  } catch {
+    return `rgba(239,68,68,${alpha})`;
+  }
+}
+
+function mapDbToAthlete(doc: Record<string, unknown>, i: number): Athlete {
+  const accent = (doc.accent as string) || "#ef4444";
+  return {
+    id: i + 1,
+    slug: (doc.slug as string) || "",
+    name: (doc.name as string) || "",
+    discipline: (doc.discipline as string) || (doc.category as string) || "",
+    level: (doc.level as string) || "Confirmé",
+    record: (doc.record as string) || "",
+    image: (doc.photo as string) || "",
+    imagePosition: "50% 18%",
+    description: (doc.description as string) || "",
+    achievements: Array.isArray(doc.palmares) ? (doc.palmares as string[]) : [],
+    accent,
+    glow: hexToRgba(accent, 0.2),
+    icon: (
+      VALID_ICONS.includes(doc.icon as (typeof VALID_ICONS)[number])
+        ? doc.icon
+        : "flame"
+    ) as Athlete["icon"],
+  };
+}
+
+async function getAllAthletes(): Promise<Athlete[]> {
+  const docs = await fetchCollection<Record<string, unknown>>("athletes");
+  if (docs && docs.length > 0) return docs.map(mapDbToAthlete);
+  return hardcodedAthletes;
+}
+
 // =====================================================
 // PARAMÈTRES STATIQUES
 // =====================================================
-export function generateStaticParams() {
-  return athletes.map((athlete) => ({
-    slug: athlete.slug,
-  }));
+export async function generateStaticParams() {
+  const all = await getAllAthletes();
+  return all.map((a) => ({ slug: a.slug }));
 }
 
 // =====================================================
@@ -37,7 +80,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const athlete = athletes.find((item) => item.slug === slug);
+  const all = await getAllAthletes();
+  const athlete = all.find((item) => item.slug === slug);
 
   if (!athlete) {
     return {
@@ -86,13 +130,14 @@ export default async function AthleteProfilePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const athlete = athletes.find((item) => item.slug === slug);
+  const all = await getAllAthletes();
+  const athlete = all.find((item) => item.slug === slug);
 
   if (!athlete) {
     notFound();
   }
 
-  const relatedAthletes = athletes
+  const relatedAthletes = all
     .filter((item) => item.slug !== athlete.slug)
     .sort((a, b) => {
       if (
