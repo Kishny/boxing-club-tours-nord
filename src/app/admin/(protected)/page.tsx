@@ -119,7 +119,7 @@ function PlanningFormFields({
         <Label>Discipline</Label>
         <input
           type="text"
-          value={data.discipline}
+          value={data.discipline ?? ""}
           onChange={(e) => onChange({ ...data, discipline: e.target.value })}
           placeholder="ex: Boxe Anglaise"
           className={inp}
@@ -143,7 +143,7 @@ function PlanningFormFields({
         <Label>Horaire</Label>
         <input
           type="text"
-          value={data.time}
+          value={data.time ?? ""}
           onChange={(e) => onChange({ ...data, time: e.target.value })}
           placeholder="18:30–19:30"
           className={inp}
@@ -154,7 +154,7 @@ function PlanningFormFields({
         <Label>Public</Label>
         <input
           type="text"
-          value={data.audience}
+          value={data.audience ?? ""}
           onChange={(e) => onChange({ ...data, audience: e.target.value })}
           placeholder="ex: Adultes"
           className={inp}
@@ -165,7 +165,7 @@ function PlanningFormFields({
         <Label>Niveau</Label>
         <input
           type="text"
-          value={data.level}
+          value={data.level ?? ""}
           onChange={(e) => onChange({ ...data, level: e.target.value })}
           placeholder="ex: Tous niveaux"
           className={inp}
@@ -176,7 +176,7 @@ function PlanningFormFields({
         <Label>Catégorie</Label>
         <input
           type="text"
-          value={data.category}
+          value={data.category ?? ""}
           onChange={(e) => onChange({ ...data, category: e.target.value })}
           placeholder="ex: Combat"
           className={inp}
@@ -263,11 +263,16 @@ export default function PlanningAdminPage() {
     }
     setSaving(true);
     try {
-      await fetch("/api/planning", {
+      const res = await fetch("/api/planning", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        alert(err?.error ?? "Erreur lors de l'ajout du créneau.");
+        return;
+      }
       setForm(EMPTY);
       setShowAdd(false);
       await fetchPlanning();
@@ -280,11 +285,16 @@ export default function PlanningAdminPage() {
     if (!editingItem) return;
     setSaving(true);
     try {
-      await fetch("/api/planning", {
+      const res = await fetch("/api/planning", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: editingItem._id, ...editingItem }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        alert(err?.error ?? "Erreur lors de la modification du créneau.");
+        return;
+      }
       setEditingItem(null);
       await fetchPlanning();
     } finally {

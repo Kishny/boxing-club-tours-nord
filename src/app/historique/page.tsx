@@ -8,9 +8,9 @@ import HistoriquePageClient from "./HistoriquePageClient";
 // SEO DE LA PAGE
 // =====================================================
 export const metadata: Metadata = {
-  title: "Historique du Boxing Club Tours Nord",
+  title: "Historique des clubs — Boxing Club La Riche & Tours Nord",
   description:
-    "Découvrez l’histoire du Boxing Club Tours Nord, ses grandes étapes, son évolution et l’identité sportive qui façonne aujourd’hui le club à Tours.",
+    "Découvrez l’histoire du Boxing Club de La Riche (1991) et du Boxing Club de Tours Nord (2004) : leurs grandes étapes, leurs dirigeants et les valeurs qui façonnent les clubs aujourd’hui.",
   alternates: {
     canonical: "https://boxingclub-tours.fr/historique",
   },

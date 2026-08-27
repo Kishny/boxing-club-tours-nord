@@ -33,9 +33,11 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect CMS mutations and media upload — GET is public
+  // Protect CMS mutations, media upload and planning mutations — GET is public
   const isProtectedApi =
-    (pathname.startsWith("/api/cms") || pathname.startsWith("/api/media")) &&
+    (pathname.startsWith("/api/cms") ||
+      pathname.startsWith("/api/media") ||
+      pathname.startsWith("/api/planning")) &&
     request.method !== "GET";
   if (isProtectedApi && !(await verifyToken(token))) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
@@ -45,5 +47,10 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/cms/:path*", "/api/media/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/api/cms/:path*",
+    "/api/media/:path*",
+    "/api/planning/:path*",
+  ],
 };

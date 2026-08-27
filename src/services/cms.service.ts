@@ -8,18 +8,14 @@ const strArr = z.array(z.string()).optional();
 // ─── Schemas ──────────────────────────────────────────────────────────────────
 
 export const PlanningSchema = z.object({
-  day: z.string().min(1, "Jour requis"),
-  time: z.string().min(1, "Heure requise"),
-  duration: z.string().optional(),
-  title: z.string().min(1, "Titre requis"),
-  discipline: z.string().optional(),
-  coach: z.string().optional(),
-  location: z.string().optional(),
-  audience: z.string().optional(),
-  level: z.string().optional(),
+  club: z.string().min(1, "Club requis"),
+  discipline: z.string().min(1, "Discipline requise"),
   category: z.string().optional(),
   color: z.string().optional(),
-  spots: z.number().optional(),
+  day: z.string().min(1, "Jour requis"),
+  time: z.string().min(1, "Heure requise"),
+  audience: z.string().optional(),
+  level: z.string().optional(),
 });
 
 export const AthleteSchema = z.object({
