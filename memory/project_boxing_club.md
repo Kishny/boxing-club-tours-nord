@@ -1,34 +1,70 @@
 ---
 name: Boxing Club Tours Métropole — projet Next.js
-description: Site premium pour 3 clubs de boxe à Tours. Stack, auth, BDD et features implémentées.
+description: Site des trois salles de boxe. Architecture, contenu réel, pièges de déploiement et travaux restants.
 type: project
 ---
 
-Site web Next.js 16 (App Router) pour Boxing Club Tours Métropole (3 clubs : Tours Nord, Tours Métropole, La Riche).
+Site Next.js 16 (App Router) pour trois salles : Tours Nord (BCTN), La Riche
+(BCLR) et Tours Métropole (BCTM). Voir `CLAUDE.md` à la racine pour les
+repères d'architecture — ce fichier retient l'état du contenu et l'historique
+des décisions.
 
-**Stack:** Next.js 16.2.3, React 19, TypeScript, Tailwind CSS 4, Framer Motion, Mongoose (MongoDB Atlas), jose (JWT).
+**Stack :** Next.js 16.2.3, React 19, TypeScript, Tailwind 4, Framer Motion,
+Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
+(cookie JWT `admin_token`).
 
-**Auth admin :** `/admin` protégé par proxy.ts (JWT httpOnly cookie `admin_token`). Login via `/admin/login`. Mot de passe dans `.env` : `ADMIN_PASSWORD`. Secret JWT : `JWT_SECRET`.
+## Contenu réel en place
 
-**BDD :** MongoDB Atlas. Fallback automatique vers `src/data/planning-fallback.json` si Mongo est indisponible.
+- **21 compétiteurs** : 16 fiches complètes, 5 encore génériques (Feirera Mota
+  Gonçalo, Gomes Angelina, Gomes Catalina, Kamdoum Gabin, Metreveli Nika) — à
+  réclamer au club sur le même modèle que les autres.
+- **59 créneaux** saison 2026-2027, avec coach, transcrits des trois affiches.
+- **Historique** des deux clubs (BCLR 1991, BCTN 2004), avec sélecteur d'onglets.
+- **Tarifs annuels** : enfant 200 €, adulte 210 € (230 € au BCTM), 2 salles
+  285 €, 3 salles 350 €. Assurance comprise, jusqu'à 3 chèques, dégressif au
+  prorata à partir de janvier, non remboursable.
+- **Contacts** : bctnbctmbclr@gmail.com, André Macé 06 08 95 66 66, Yves Le Vern
+  07 50 52 54 15, Brenda Macé 06 76 52 50 87, Brian Macé 07 83 04 53 84.
+- **Gala** : Tour Event Fight, samedi 21 novembre 2026, gymnase Jean-Marie
+  Bialy à La Riche, billetterie sur toureventfight.com.
+- **Documents** téléchargeables dans `public/documents/` : fiches d'inscription
+  et plannings des trois salles.
 
-**API routes :**
-- `GET/POST/PUT/DELETE /api/planning` — CRUD créneaux
-- `POST /api/auth/login` — connexion admin (JWT cookie)
-- `POST /api/auth/logout` — déconnexion
+## Décisions prises
 
-**Admin dashboard :** stats (total créneaux, disciplines, club le plus actif, cours du jour), formulaire ajout, modale édition Framer Motion, liste avec couleur d'accent.
+- **Les trois formulaires ont été retirés** (inscription, contact, newsletter) :
+  aucun n'avait de traitement, ils promettaient des réponses jamais envoyées.
+  Code conservé dans `src/components/forms/`, remplacés par du contact direct
+  et des liens vers les réseaux.
+- **Page Horaires** : l'affiche officielle de la salle s'affiche en haut, la
+  grille interactive en dessous. Deux sources indépendantes, donc dates de mise
+  à jour visibles des deux côtés, mention « l'affiche fait foi » et
+  avertissement dans l'admin.
+- **Cartes athlètes** : vignettes recadrées sur le visage, parce qu'un
+  `object-position` réglé à la main coupait les têtes.
 
-**Page horaires :** filtres (recherche discipline, chips audience), navigation mobile (onglets jours + prev/next), grille desktop multi-colonnes.
+## Reste à faire
 
-**Why:** Client veut gérer ses cours sans toucher au code. Site vitrine premium pour attirer des adhérents.
+1. **Page Horaires invisible pour Google** — rendue côté client, le HTML servi
+   ne contient qu'un écran de chargement. Le plus gros chantier restant.
+2. **Canoniques manquantes** sur `/coachs` et `/contact` — ce sont des
+   composants client, il faut les scinder en page serveur + composant client.
+3. **Pages `/disciplines/<slug>` en 404** — la collection CMS est vide, donc
+   `generateStaticParams` ne génère rien. Sans conséquence tant qu'aucun lien
+   n'y mène.
+4. **Page 404 par défaut de Next**, en anglais, sans menu.
+5. **Sitemap** — les 21 fiches athlètes manquent, il faudrait le rendre async.
+6. `?discipline=` transmis par les liens mais ignoré par la page Inscription.
+7. **DNS** : `boxingtoursmetropole.fr` pointe encore vers OVH. À rattacher au
+   projet Vercel avant la mise en ligne, sinon les URL canoniques désignent
+   l'ancien site.
 
-**How to apply:** Toujours vérifier les docs Next.js 16 dans `node_modules/next/dist/docs/` avant d'écrire du code (conventions changeantes).
+## À faire préciser par le club
 
-**Page /historique :** contenu réel des clubs (sources : PDF « Historique du BCTN » et « Historique BCLR » fournis par le client). Sélecteur d'onglets BCLR (1991) / BCTN (2004) ; chaque club a sa présentation, sa chronologie, ses valeurs et ses dirigeants dans le tableau `clubs` de `HistoriquePageClient.tsx`. Dirigeants BCTN encore inconnus (TODO dans le fichier) ; pas de photos de dirigeants → avatars à initiales. Le BCTM n'a pas encore d'historique fourni.
-
-**Athlètes :** 16 compétiteurs (dossier `COMPETITEURS SITE` du Bureau = source de référence). La page Athlètes est alimentée par MongoDB (`athletes`) qui **écrase totalement** `src/data/athletes.ts` dès qu'elle contient au moins un document — toute nouvelle fiche doit donc être créée dans le CMS, pas seulement dans le code. Les photos de `public/images/athletes/` ne sont **pas suivies par git** (seules les images placeholder anna/karim/lorie/mehdi/stacy/yassine le sont) : tant qu'elles ne sont pas commitées, elles renvoient 404 en production. 8 fiches sur 16 sont encore des placeholders (discipline Kickboxing par défaut, record « — ») en attente des fiches infos.
-
-**Planning & documents :** la page /horaires affiche l'affiche officielle de la salle sélectionnée (WebP dans `public/images/plannings/`) puis la grille interactive alimentée par MongoDB (collection `planning`, 59 créneaux saison 2026-2027, champ `coach` inclus). Les PDF (plannings + fiches d'inscription) sont dans `public/documents/`. Sources : dossiers `planning 2026:2027` et `FICHES D'INSCRIPTIONS 26:27` du Bureau.
-
-**Déploiement :** le webhook GitHub → Vercel a été muet un temps (un push ne déclenchait aucun build ; il fallait passer par Deployments → Create Deployment → main → Deploy to Production). Il refonctionne depuis le 29/08/2026. Le push doit venir de la machine du client : le shell distant n'a ni réseau ni identifiants GitHub. Écrire dans MongoDB se fait via l'admin du site déployé dans Chrome (fetch sur /api/*), le conteneur n'atteignant pas Atlas — et toujours APRÈS le déploiement, sinon la validation Zod de l'ancien build supprime les champs récents.
+- Chevauchement vendredi soir au BCLR : boxe anglaise 18h30–19h45 puis
+  19h00–20h30.
+- L'affiche BCTM annonce la reprise en « septembre 2027 » là où les deux autres
+  disent 2026.
+- L'affiche BCTN écrit `bctnbctnbclr@gmail.com`, les deux autres
+  `bctnbctmbclr@gmail.com` — c'est cette dernière qui est en ligne.
+- Fiche d'Angelo Vrillon : 10 combats annoncés, mais 3 + 5 + 3 = 11.
