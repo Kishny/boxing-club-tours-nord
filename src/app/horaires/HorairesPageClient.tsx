@@ -2,7 +2,16 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Search,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Printer,
+  FileText,
+  MapPin,
+} from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -28,6 +37,7 @@ type PlanningItem = {
   day: DayKey;
   time: string;
   audience: string;
+  coach?: string;
   level: string;
 };
 
@@ -36,6 +46,7 @@ type ScheduleCell = {
   time: string;
   audience: string;
   level: string;
+  coach?: string;
 };
 
 type DisciplineRow = {
@@ -64,7 +75,50 @@ type DayBlock = {
   time: string;
   audience: string;
   level: string;
+  coach?: string;
 };
+
+
+// ──────────────────────────────────────────────────────
+// AFFICHES DES PLANNINGS (public/documents/)
+// Nouvelle saison : remplacer le PDF et le libellé.
+// ──────────────────────────────────────────────────────
+
+type PlanningFile = {
+  slug: string;
+  short: string;
+  name: string;
+  venue: string;
+  file: string;
+  accent: string;
+};
+
+const PLANNING_FILES: PlanningFile[] = [
+  {
+    slug: "bctn",
+    short: "BCTN",
+    name: "Boxing Club Tours Nord",
+    venue: "Salle Georges Carpentier · 81 avenue de l’Europe, 37100 Tours",
+    file: "/documents/planning-bctn-2026-2027.pdf",
+    accent: "#f59e0b",
+  },
+  {
+    slug: "bclr",
+    short: "BCLR",
+    name: "Boxing Club La Riche",
+    venue: "Salle Jean-Marie Bialy · 6 rue du Petit Plessis, 37520 La Riche",
+    file: "/documents/planning-bclr-2026-2027.pdf",
+    accent: "#ef4444",
+  },
+  {
+    slug: "bctm",
+    short: "BCTM",
+    name: "Boxing Club Tours Métropole",
+    venue: "Complexe sportif Hallebardier · allée Yvon Gilbert, 37000 Tours",
+    file: "/documents/planning-bctm-2026-2027.pdf",
+    accent: "#ffffff",
+  },
+];
 
 // ──────────────────────────────────────────────────────
 // CONSTANTS
@@ -154,6 +208,7 @@ function buildClubsFromAPI(data: PlanningItem[]): Club[] {
 
     row.slots.push({
       day: item.day,
+      coach: item.coach,
       time: item.time,
       audience: item.audience,
       level: item.level,
@@ -177,6 +232,7 @@ function groupSlotsByDay(club: Club): Record<DayKey, DayBlock[]> {
         time: slot.time,
         audience: slot.audience,
         level: slot.level,
+        coach: slot.coach,
       });
     });
   });
@@ -211,6 +267,11 @@ function CourseCard({ slot }: { slot: DayBlock }) {
       </h3>
       <p className="mt-3 text-sm text-white/60">{slot.audience}</p>
       <p className="mt-0.5 text-xs text-white/35">{slot.level}</p>
+      {slot.coach ? (
+        <p className="mt-2 text-xs font-semibold text-white/45">
+          Avec {slot.coach}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -575,6 +636,96 @@ export default function HorairesPageClient() {
                 </div>
               </>
             )}
+          </div>
+        </section>
+
+        {/* =================================================
+            AFFICHES DES PLANNINGS — À TÉLÉCHARGER
+        ================================================= */}
+        <section className="relative overflow-hidden border-t border-white/10 py-8 md:py-16 lg:py-20">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute left-[-4rem] top-12 h-40 w-40 rounded-full bg-amber-300/10 blur-3xl md:h-56 md:w-56" />
+            <div className="absolute right-[-4rem] bottom-10 h-40 w-40 rounded-full bg-red-500/10 blur-3xl md:h-56 md:w-56" />
+          </div>
+
+          <div className="container-custom relative z-10 mx-auto max-w-6xl">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-md md:px-4 md:py-2 md:text-[0.72rem] md:tracking-[0.18em]">
+                <FileText size={13} />
+                Programme 2026 - 2027
+              </span>
+
+              <h2 className="mt-4 text-[1.7rem] font-black uppercase leading-[0.96] tracking-[0.02em] text-white sm:text-[2rem] md:mt-5 md:text-4xl lg:text-5xl">
+                L’affiche de votre salle
+              </h2>
+
+              <p className="mt-3 text-[0.9rem] leading-6 text-white/70 md:mt-4 md:text-base md:leading-7">
+                Le planning complet en une page, avec les tarifs, le matériel à
+                prévoir et les temps forts de la saison. À imprimer et à garder
+                sous la main.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:mt-12 md:gap-6 lg:grid-cols-3">
+              {PLANNING_FILES.map((item) => (
+                <article
+                  key={item.slug}
+                  className="relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.05] p-5 shadow-[0_14px_30px_rgba(0,0,0,0.16)] backdrop-blur-xl transition-colors duration-300 hover:border-white/20 md:rounded-[28px] md:p-7"
+                >
+                  <div
+                    className="absolute inset-x-0 top-0 h-[2px]"
+                    style={{
+                      background: `linear-gradient(to right, ${item.accent}, rgba(255,255,255,0.45), transparent)`,
+                    }}
+                  />
+
+                  <div className="relative z-10">
+                    <p
+                      className="text-[0.68rem] font-bold uppercase tracking-[0.16em]"
+                      style={{ color: item.accent }}
+                    >
+                      {item.short}
+                    </p>
+
+                    <h3 className="mt-1.5 text-[1.05rem] font-black leading-5 text-white md:text-xl">
+                      {item.name}
+                    </h3>
+
+                    <p className="mt-3 flex items-start gap-2 text-[0.84rem] leading-5 text-white/62">
+                      <MapPin size={14} className="mt-0.5 shrink-0" />
+                      {item.venue}
+                    </p>
+
+                    <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+                      <a
+                        href={item.file}
+                        download
+                        className="inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(220,38,38,0.24)] transition-all duration-300 hover:bg-red-700"
+                      >
+                        <Download size={16} />
+                        Télécharger
+                      </a>
+
+                      <a
+                        href={item.file}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10"
+                      >
+                        <Printer size={16} />
+                        Imprimer
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <p className="mt-5 text-center text-[0.8rem] leading-5 text-white/45 md:mt-8">
+              Reprise des cours le 7 septembre 2026 · Les cours du samedi ne sont
+              pas assurés toutes les semaines en période de compétition, voir
+              avec l’entraîneur.
+            </p>
           </div>
         </section>
       </main>

@@ -37,6 +37,7 @@ type PlanningItem = {
   time: string;
   audience: string;
   level: string;
+  coach?: string;
 };
 
 // ──────────────────────────────────────────────
@@ -74,6 +75,7 @@ const EMPTY: PlanningItem = {
   time: "",
   audience: "",
   level: "",
+  coach: "",
 };
 
 // ──────────────────────────────────────────────
@@ -168,6 +170,17 @@ function PlanningFormFields({
           value={data.level ?? ""}
           onChange={(e) => onChange({ ...data, level: e.target.value })}
           placeholder="ex: Tous niveaux"
+          className={inp}
+        />
+      </div>
+
+      <div>
+        <Label>Coach</Label>
+        <input
+          type="text"
+          value={data.coach ?? ""}
+          onChange={(e) => onChange({ ...data, coach: e.target.value })}
+          placeholder="ex: Brenda"
           className={inp}
         />
       </div>

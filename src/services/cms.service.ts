@@ -16,6 +16,7 @@ export const PlanningSchema = z.object({
   time: z.string().min(1, "Heure requise"),
   audience: z.string().optional(),
   level: z.string().optional(),
+  coach: z.string().optional(),
 });
 
 export const AthleteSchema = z.object({
