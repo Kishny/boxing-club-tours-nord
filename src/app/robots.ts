@@ -12,6 +12,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // L'administration et l'API n'ont rien à faire dans les résultats
+      // de recherche.
+      disallow: ["/admin", "/api"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
   };

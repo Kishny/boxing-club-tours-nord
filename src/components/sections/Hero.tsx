@@ -34,7 +34,7 @@ type HeroSlide = {
 const heroSlides: HeroSlide[] = [
   {
     id: 1,
-    image: "/images/hero.png",
+    image: "/images/hero.webp",
     alt: "Combattants du Boxing Club - slide 1",
     badge: "Club • Performance • Passion",
     title: "BOXING CLUB",
@@ -45,7 +45,7 @@ const heroSlides: HeroSlide[] = [
   },
   {
     id: 2,
-    image: "/images/hero-2.png",
+    image: "/images/hero-2.webp",
     alt: "Entraînement intense du Boxing Club - slide 2",
     badge: "Kickboxing • K1 • Full Contact",
     title: "ENTRAÎNE-TOI AVEC INTENSITÉ",
@@ -56,7 +56,7 @@ const heroSlides: HeroSlide[] = [
   },
   {
     id: 3,
-    image: "/images/hero-3.png",
+    image: "/images/hero-3.webp",
     alt: "Ambiance premium et combattants du club - slide 3",
     badge: "Coachs • Énergie • Progression",
     title: "REJOINS L’EXPÉRIENCE",

@@ -247,7 +247,7 @@ export default function Disciplines() {
 
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/images/hero-2.png"
+          src="/images/hero-2.webp"
           alt="Filigrane Boxing Club"
           fill
           priority
