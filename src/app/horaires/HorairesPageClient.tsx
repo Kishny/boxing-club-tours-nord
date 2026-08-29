@@ -11,7 +11,9 @@ import {
   Printer,
   FileText,
   MapPin,
+  Maximize2,
 } from "lucide-react";
+import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -85,37 +87,45 @@ type DayBlock = {
 // ──────────────────────────────────────────────────────
 
 type PlanningFile = {
+  clubId: number;
   slug: string;
   short: string;
   name: string;
   venue: string;
   file: string;
+  image: string;
   accent: string;
 };
 
 const PLANNING_FILES: PlanningFile[] = [
   {
+    clubId: 1,
     slug: "bctn",
     short: "BCTN",
     name: "Boxing Club Tours Nord",
     venue: "Salle Georges Carpentier · 81 avenue de l’Europe, 37100 Tours",
     file: "/documents/planning-bctn-2026-2027.pdf",
+    image: "/images/plannings/planning-bctn-2026-2027.webp",
     accent: "#f59e0b",
   },
   {
+    clubId: 3,
     slug: "bclr",
     short: "BCLR",
     name: "Boxing Club La Riche",
     venue: "Salle Jean-Marie Bialy · 6 rue du Petit Plessis, 37520 La Riche",
     file: "/documents/planning-bclr-2026-2027.pdf",
+    image: "/images/plannings/planning-bclr-2026-2027.webp",
     accent: "#ef4444",
   },
   {
+    clubId: 2,
     slug: "bctm",
     short: "BCTM",
     name: "Boxing Club Tours Métropole",
     venue: "Complexe sportif Hallebardier · allée Yvon Gilbert, 37000 Tours",
     file: "/documents/planning-bctm-2026-2027.pdf",
+    image: "/images/plannings/planning-bctm-2026-2027.webp",
     accent: "#ffffff",
   },
 ];
@@ -149,8 +159,10 @@ const shortDayLabels: Record<DayKey, string> = {
 // ──────────────────────────────────────────────────────
 
 function parseStartMinutes(time: string) {
+  // Accepte « 18h30 », « 18H30 » et « 18:30 »
   const start = time.split(/[-–]/)[0].trim();
-  const [h, m] = start.split(":").map(Number);
+  const [h, m] = start.split(/[h:H]/).map(Number);
+  if (Number.isNaN(h)) return 0;
   return h * 60 + (m || 0);
 }
 
@@ -160,7 +172,7 @@ function buildClubsFromAPI(data: PlanningItem[]): Club[] {
       id: 1,
       name: "Boxing Club Tours Nord",
       cityLabel: "Tours Nord",
-      address: "81 Av. de l'Europe, 37100 Tours",
+      address: "Salle Georges Carpentier · 81 av. de l’Europe, 37100 Tours",
       phone: "06 08 95 66 66",
       accent: "#ef4444",
       glow: "rgba(239,68,68,0.25)",
@@ -171,7 +183,7 @@ function buildClubsFromAPI(data: PlanningItem[]): Club[] {
       id: 2,
       name: "Boxing Club Tours Métropole",
       cityLabel: "Tours Métropole",
-      address: "65 Av. du Général de Gaulle, 37000 Tours",
+      address: "Complexe Hallebardier · allée Yvon Gilbert, 37000 Tours",
       phone: "06 08 95 66 66",
       accent: "#f59e0b",
       glow: "rgba(245,158,11,0.25)",
@@ -182,8 +194,8 @@ function buildClubsFromAPI(data: PlanningItem[]): Club[] {
       id: 3,
       name: "Boxing Club La Riche",
       cityLabel: "La Riche",
-      address: "1 Rue du Petit Plessis, 37520 La Riche",
-      phone: "02 47 55 51 61",
+      address: "Salle Jean-Marie Bialy · 6 rue du Petit Plessis, 37520 La Riche",
+      phone: "06 08 95 66 66",
       accent: "#22c55e",
       glow: "rgba(34,197,94,0.25)",
       age: "Enfants à partir de 6 ans",
@@ -333,6 +345,11 @@ export default function HorairesPageClient() {
     [filteredData],
   );
 
+  const activePlanning = useMemo(
+    () => PLANNING_FILES.find((p) => p.clubId === activeClubId),
+    [activeClubId],
+  );
+
   const activeClub = useMemo(
     () => clubs.find((c) => c.id === activeClubId) ?? clubs[0],
     [clubs, activeClubId],
@@ -422,6 +439,119 @@ export default function HorairesPageClient() {
               Retrouvez tous les créneaux des clubs Boxing Club Tours
               Métropole.
             </p>
+          </div>
+        </section>
+
+        {/* =================================================
+            PROGRAMMES DE LA SAISON — AFFICHES VISIBLES
+        ================================================= */}
+        <section className="relative overflow-hidden border-b border-white/10 py-8 md:py-14">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute left-[-4rem] top-12 h-40 w-40 rounded-full bg-amber-300/10 blur-3xl md:h-56 md:w-56" />
+            <div className="absolute right-[-4rem] bottom-10 h-40 w-40 rounded-full bg-red-500/10 blur-3xl md:h-56 md:w-56" />
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-md md:px-4 md:py-2 md:text-[0.72rem] md:tracking-[0.18em]">
+                <FileText size={13} />
+                Programme 2026 - 2027
+              </span>
+
+              <h2 className="mt-4 text-[1.7rem] font-black uppercase leading-[0.96] tracking-[0.02em] text-white sm:text-[2rem] md:mt-5 md:text-4xl">
+                Le planning de la saison
+              </h2>
+
+              <p className="mt-3 text-[0.9rem] leading-6 text-white/70 md:mt-4 md:text-base md:leading-7">
+                Reprise des cours le 7 septembre 2026. Choisissez votre salle :
+                le programme complet s’affiche, avec les tarifs, le matériel à
+                prévoir et les temps forts de la saison.
+              </p>
+            </div>
+
+            {/* Sélecteur de salle */}
+            <div className="mt-6 flex flex-wrap justify-center gap-2.5 md:mt-8 md:gap-3">
+              {PLANNING_FILES.map((item) => {
+                const isActive = item.clubId === activeClubId;
+
+                return (
+                  <button
+                    key={item.slug}
+                    type="button"
+                    onClick={() => setActiveClubId(item.clubId)}
+                    aria-pressed={isActive}
+                    className={`rounded-full border px-4 py-2.5 text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300 md:px-6 md:py-3 ${
+                      isActive
+                        ? "border-white/20 bg-white/10 text-white"
+                        : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80"
+                    }`}
+                    style={
+                      isActive
+                        ? { boxShadow: `0 0 26px ${item.accent}33` }
+                        : undefined
+                    }
+                  >
+                    <span style={{ color: isActive ? item.accent : undefined }}>
+                      {item.short}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Affiche */}
+            {activePlanning ? (
+              <div className="mt-6 md:mt-10">
+                <p className="text-center text-[0.84rem] leading-5 text-white/55 md:text-[0.9rem]">
+                  <MapPin size={13} className="mr-1.5 inline align-[-2px]" />
+                  {activePlanning.venue}
+                </p>
+
+                <a
+                  href={activePlanning.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-4 block overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.04] p-2 shadow-[0_18px_40px_rgba(0,0,0,0.28)] transition-colors duration-300 hover:border-white/25 md:mt-6 md:rounded-[28px] md:p-3"
+                >
+                  <Image
+                    src={activePlanning.image}
+                    alt={`Programme ${activePlanning.name} — saison 2026-2027`}
+                    width={2200}
+                    height={1556}
+                    priority
+                    sizes="(max-width: 1280px) 100vw, 1200px"
+                    className="h-auto w-full rounded-[14px] md:rounded-[20px]"
+                  />
+                </a>
+
+                <p className="mt-3 text-center text-[0.78rem] text-white/40">
+                  <Maximize2 size={12} className="mr-1.5 inline align-[-1px]" />
+                  Touchez l’affiche pour l’agrandir · la grille détaillée et les
+                  filtres se trouvent juste en dessous
+                </p>
+
+                <div className="mt-5 flex flex-col items-center justify-center gap-2.5 sm:flex-row md:mt-7 md:gap-3">
+                  <a
+                    href={activePlanning.file}
+                    download
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(220,38,38,0.24)] transition-all duration-300 hover:bg-red-700 md:px-6"
+                  >
+                    <Download size={16} />
+                    Télécharger le PDF
+                  </a>
+
+                  <a
+                    href={activePlanning.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10 md:px-6"
+                  >
+                    <Printer size={16} />
+                    Imprimer
+                  </a>
+                </div>
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -639,95 +769,6 @@ export default function HorairesPageClient() {
           </div>
         </section>
 
-        {/* =================================================
-            AFFICHES DES PLANNINGS — À TÉLÉCHARGER
-        ================================================= */}
-        <section className="relative overflow-hidden border-t border-white/10 py-8 md:py-16 lg:py-20">
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-[-4rem] top-12 h-40 w-40 rounded-full bg-amber-300/10 blur-3xl md:h-56 md:w-56" />
-            <div className="absolute right-[-4rem] bottom-10 h-40 w-40 rounded-full bg-red-500/10 blur-3xl md:h-56 md:w-56" />
-          </div>
-
-          <div className="container-custom relative z-10 mx-auto max-w-6xl">
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-md md:px-4 md:py-2 md:text-[0.72rem] md:tracking-[0.18em]">
-                <FileText size={13} />
-                Programme 2026 - 2027
-              </span>
-
-              <h2 className="mt-4 text-[1.7rem] font-black uppercase leading-[0.96] tracking-[0.02em] text-white sm:text-[2rem] md:mt-5 md:text-4xl lg:text-5xl">
-                L’affiche de votre salle
-              </h2>
-
-              <p className="mt-3 text-[0.9rem] leading-6 text-white/70 md:mt-4 md:text-base md:leading-7">
-                Le planning complet en une page, avec les tarifs, le matériel à
-                prévoir et les temps forts de la saison. À imprimer et à garder
-                sous la main.
-              </p>
-            </div>
-
-            <div className="mt-6 grid gap-4 md:mt-12 md:gap-6 lg:grid-cols-3">
-              {PLANNING_FILES.map((item) => (
-                <article
-                  key={item.slug}
-                  className="relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.05] p-5 shadow-[0_14px_30px_rgba(0,0,0,0.16)] backdrop-blur-xl transition-colors duration-300 hover:border-white/20 md:rounded-[28px] md:p-7"
-                >
-                  <div
-                    className="absolute inset-x-0 top-0 h-[2px]"
-                    style={{
-                      background: `linear-gradient(to right, ${item.accent}, rgba(255,255,255,0.45), transparent)`,
-                    }}
-                  />
-
-                  <div className="relative z-10">
-                    <p
-                      className="text-[0.68rem] font-bold uppercase tracking-[0.16em]"
-                      style={{ color: item.accent }}
-                    >
-                      {item.short}
-                    </p>
-
-                    <h3 className="mt-1.5 text-[1.05rem] font-black leading-5 text-white md:text-xl">
-                      {item.name}
-                    </h3>
-
-                    <p className="mt-3 flex items-start gap-2 text-[0.84rem] leading-5 text-white/62">
-                      <MapPin size={14} className="mt-0.5 shrink-0" />
-                      {item.venue}
-                    </p>
-
-                    <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
-                      <a
-                        href={item.file}
-                        download
-                        className="inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(220,38,38,0.24)] transition-all duration-300 hover:bg-red-700"
-                      >
-                        <Download size={16} />
-                        Télécharger
-                      </a>
-
-                      <a
-                        href={item.file}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10"
-                      >
-                        <Printer size={16} />
-                        Imprimer
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <p className="mt-5 text-center text-[0.8rem] leading-5 text-white/45 md:mt-8">
-              Reprise des cours le 7 septembre 2026 · Les cours du samedi ne sont
-              pas assurés toutes les semaines en période de compétition, voir
-              avec l’entraîneur.
-            </p>
-          </div>
-        </section>
       </main>
 
       <Footer />
