@@ -72,12 +72,15 @@ const heroSlides: HeroSlide[] = [
 // =====================================================
 const upcomingEvent = {
   label: "Prochain gala",
-  title: "Tour Event Fight • Édition 2026",
-  date: "Samedi 18 octobre 2026",
-  location: "Tours Métropole",
+  title: "Tour Event Fight • Gala du BC La Riche",
+  date: "Samedi 21 novembre 2026",
+  location: "Gymnase Jean-Marie Bialy • La Riche",
   cta: "Réserver mes places",
-  href: "#contact",
+  href: "https://www.toureventfight.com",
 };
+
+// Date et heure du gala, utilisée par le compte à rebours.
+const eventDate = new Date("2026-11-21T20:00:00");
 
 // =====================================================
 // COMPOSANT HERO PREMIUM (MOBILE ULTRA COMPACT)
@@ -100,8 +103,6 @@ export default function Hero() {
   }, []);
 
   const activeSlide = heroSlides[currentSlide];
-  const eventDate = new Date("2026-10-18T20:00:00");
-
   const [timeLeft, setTimeLeft] = useState({
     days: "00",
     hours: "00",
@@ -315,7 +316,7 @@ export default function Hero() {
                 </Link>
 
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="
                     inline-flex items-center justify-center
                     text-xs font-semibold text-white/78
@@ -327,7 +328,7 @@ export default function Hero() {
                 </Link>
 
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="
                     hidden sm:inline-flex sm:min-h-[46px] sm:items-center sm:justify-center
                     rounded-full border border-white/20
@@ -429,6 +430,8 @@ export default function Hero() {
               </div>
               <Link
                 href={upcomingEvent.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
                   inline-flex min-h-[52px] shrink-0 items-center justify-center
                   rounded-full border border-white/15
@@ -523,6 +526,8 @@ export default function Hero() {
 
                     <Link
                       href={upcomingEvent.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="
                         mt-3 inline-flex min-h-[42px] w-full items-center justify-center
                         rounded-full border border-white/15

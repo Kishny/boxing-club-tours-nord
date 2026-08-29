@@ -27,9 +27,9 @@ import type { Coach } from "@/types";
 const hardcodedCoaches: Coach[] = [
   {
     id: 1,
-    name: "Brian MACE",
-    role: "Head Coach",
-    specialty: "Kickboxing • K1 Rules",
+    name: "Brian Macé",
+    role: "Entraîneur",
+    specialty: "Kick-boxing • K1 • Muay thaï • Boxe anglaise",
     experience: "Encadrement technique & progression compétitive",
     description:
       "Un encadrement exigeant, structuré et moderne, avec une vraie attention portée à la progression individuelle et à la qualité du travail technique.",
@@ -38,34 +38,6 @@ const hardcodedCoaches: Coach[] = [
     strengths: ["Technique", "Exigence", "Lecture du combat"],
     image: "/images/coachs/brian.jpg",
     accent: "#ef4444",
-  },
-  {
-    id: 2,
-    name: "Jean LOU",
-    role: "Technique Coach",
-    specialty: "Full Contact • Low Kick",
-    experience: "Construction gestuelle & précision du travail debout",
-    description:
-      "Un profil orienté précision, répétition, maîtrise des bases et développement des automatismes dans une logique de progression propre.",
-    philosophy:
-      "Construire une boxe lisible, efficace et disciplinée, en travaillant avec rigueur les fondamentaux et l’intelligence de combat.",
-    strengths: ["Précision", "Structure", "Pédagogie"],
-    image: "/images/coachs/jean.png",
-    accent: "#f59e0b",
-  },
-  {
-    id: 3,
-    name: "Leslie DEL PIERRO",
-    role: "Performance Coach",
-    specialty: "Condition physique • Vitesse • Réactivité",
-    experience: "Préparation physique & intensité d’entraînement",
-    description:
-      "Un accompagnement orienté engagement, explosivité, mobilité et montée en puissance, pour renforcer l’impact global du pratiquant.",
-    philosophy:
-      "Faire émerger un mental fort, une condition solide et une présence physique capable de soutenir le travail technique dans la durée.",
-    strengths: ["Cardio", "Explosivité", "Mental"],
-    image: "/images/coachs/leslie.png",
-    accent: "#facc15",
   },
 ];
 
