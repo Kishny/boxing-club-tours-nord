@@ -1,18 +1,33 @@
 // src/data/contact.ts
 // =====================================================
 // COORDONNÉES DU CLUB
-// Source unique pour les pages Inscription et Contact.
-// -----------------------------------------------------
-// ⚠️ À COMPLÉTER : email et téléphone sont encore les valeurs
-// d'exemple du template. Les remplacer par les vraies coordonnées
-// avant la mise en ligne définitive.
+// Source unique pour les pages Inscription, Contact et
+// les données structurées de la page d'accueil.
+// Source : programme officiel BCLR saison 2026-2027.
 // =====================================================
 
-export const CLUB_CONTACT = {
-  email: "contact@boxingclub.fr",
-  phone: "+33 6 00 00 00 00",
-  phoneHref: "+33600000000",
+export type ClubContact = {
+  name: string;
+  phone: string;
+  phoneHref: string;
 };
+
+// Adresse email commune aux trois clubs (BCTN, BCTM, BCLR).
+export const CLUB_EMAIL = "bctnbctmbclr@gmail.com";
+
+// Contact principal, utilisé quand un seul numéro est affiché.
+export const CLUB_MAIN_CONTACT: ClubContact = {
+  name: "André Macé",
+  phone: "06 08 95 66 66",
+  phoneHref: "+33608956666",
+};
+
+export const CLUB_CONTACTS: ClubContact[] = [
+  CLUB_MAIN_CONTACT,
+  { name: "Yves Le Vern", phone: "07 50 52 54 15", phoneHref: "+33750525415" },
+  { name: "Brenda Macé", phone: "06 76 52 50 87", phoneHref: "+33676525087" },
+  { name: "Brian Macé", phone: "07 83 04 53 84", phoneHref: "+33783045384" },
+];
 
 export type Salle = {
   short: string;
@@ -33,7 +48,7 @@ export const CLUB_SALLES: Salle[] = [
   {
     short: "BCLR",
     name: "Boxing Club La Riche",
-    address: "Gymnase J.M Bialy, 6 rue du Petit Plessis, 37520 La Riche",
+    address: "Salle Jean-Marie Bialy, 6 rue du Petit Plessis, 37520 La Riche",
     accent: "#ef4444",
     glow: "rgba(239,68,68,0.20)",
   },

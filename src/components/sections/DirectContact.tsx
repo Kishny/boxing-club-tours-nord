@@ -7,7 +7,7 @@
 // =====================================================
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock3, ChevronRight } from "lucide-react";
-import { CLUB_CONTACT, CLUB_SALLES } from "@/data/contact";
+import { CLUB_CONTACTS, CLUB_EMAIL, CLUB_SALLES } from "@/data/contact";
 
 type Props = {
   variant?: "inscription" | "contact";
@@ -38,41 +38,51 @@ export default function DirectContact({ variant = "contact" }: Props) {
             : "Renseignements, séance d’essai, partenariats ou organisation d’un événement : le club vous répond par téléphone ou par email."}
         </p>
 
-        {/* Téléphone + email */}
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 md:mt-8">
-          <a
-            href={`tel:${CLUB_CONTACT.phoneHref}`}
-            className="group flex items-center gap-3 rounded-[18px] border border-white/10 bg-black/20 p-4 transition-colors duration-300 hover:border-amber-300/30 hover:bg-amber-300/[0.06]"
-          >
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-300">
-              <Phone size={18} />
+        {/* Email */}
+        <a
+          href={`mailto:${CLUB_EMAIL}`}
+          className="mt-6 flex items-center gap-3 rounded-[18px] border border-white/10 bg-black/20 p-4 transition-colors duration-300 hover:border-red-500/30 hover:bg-red-500/[0.06] md:mt-8"
+        >
+          <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-500/20 bg-red-500/10 text-red-400">
+            <Mail size={18} />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[0.6rem] font-bold uppercase tracking-[0.14em] text-white/50">
+              Email — les trois clubs
             </span>
-            <span className="min-w-0">
-              <span className="block text-[0.6rem] font-bold uppercase tracking-[0.14em] text-white/50">
-                Téléphone
-              </span>
-              <span className="mt-1 block truncate text-[0.92rem] font-semibold text-white">
-                {CLUB_CONTACT.phone}
-              </span>
+            <span className="mt-1 block truncate text-[0.92rem] font-semibold text-white">
+              {CLUB_EMAIL}
             </span>
-          </a>
+          </span>
+        </a>
 
-          <a
-            href={`mailto:${CLUB_CONTACT.email}`}
-            className="group flex items-center gap-3 rounded-[18px] border border-white/10 bg-black/20 p-4 transition-colors duration-300 hover:border-red-500/30 hover:bg-red-500/[0.06]"
-          >
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-red-500/20 bg-red-500/10 text-red-400">
-              <Mail size={18} />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-[0.6rem] font-bold uppercase tracking-[0.14em] text-white/50">
-                Email
-              </span>
-              <span className="mt-1 block truncate text-[0.92rem] font-semibold text-white">
-                {CLUB_CONTACT.email}
-              </span>
-            </span>
-          </a>
+        {/* Téléphones */}
+        <div className="mt-4 space-y-2.5">
+          <p className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-white/50">
+            Par téléphone
+          </p>
+
+          <div className="grid gap-2.5 sm:grid-cols-2">
+            {CLUB_CONTACTS.map((contact) => (
+              <a
+                key={contact.phoneHref}
+                href={`tel:${contact.phoneHref}`}
+                className="flex items-center gap-3 rounded-[18px] border border-white/10 bg-black/20 p-4 transition-colors duration-300 hover:border-amber-300/30 hover:bg-amber-300/[0.06]"
+              >
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/10 text-amber-300">
+                  <Phone size={16} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate text-[0.86rem] font-semibold text-white">
+                    {contact.name}
+                  </span>
+                  <span className="mt-0.5 block text-[0.84rem] text-white/60">
+                    {contact.phone}
+                  </span>
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Salles */}

@@ -36,10 +36,11 @@ export default function Home() {
     url: "https://boxingclub-tours.fr",
     logo: "https://boxingclub-tours.fr/images/logo.png",
     image: "https://boxingclub-tours.fr/images/og-image.jpg",
-    telephone: "+33 6 00 00 00 00",
+    telephone: "+33 6 08 95 66 66",
+    email: "bctnbctmbclr@gmail.com",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "À compléter",
+      streetAddress: "81 avenue de l'Europe",
       postalCode: "37100",
       addressLocality: "Tours",
       addressCountry: "FR",

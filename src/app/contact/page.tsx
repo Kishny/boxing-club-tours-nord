@@ -9,6 +9,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import DirectContact from "@/components/sections/DirectContact";
+import { CLUB_EMAIL, CLUB_MAIN_CONTACT } from "@/data/contact";
 import {
   Mail,
   Phone,
@@ -233,7 +234,7 @@ export default function ContactPage() {
                           Email
                         </h3>
                         <p className="mt-1 text-[0.82rem] leading-5 text-white/58">
-                          contact@boxingclub.fr
+                          {CLUB_EMAIL}
                         </p>
                       </div>
 
@@ -282,7 +283,7 @@ export default function ContactPage() {
                           Téléphone
                         </h3>
                         <p className="mt-1 text-[0.82rem] leading-5 text-white/58">
-                          +33 6 00 00 00 00
+                          {CLUB_MAIN_CONTACT.phone}
                         </p>
                       </div>
 
@@ -440,7 +441,7 @@ export default function ContactPage() {
                               Email
                             </p>
                             <p className="mt-1 text-sm leading-6 text-white/60">
-                              contact@boxingclub.fr
+                              {CLUB_EMAIL}
                             </p>
                           </div>
                         </div>
@@ -454,7 +455,7 @@ export default function ContactPage() {
                               Téléphone
                             </p>
                             <p className="mt-1 text-sm leading-6 text-white/60">
-                              +33 6 00 00 00 00
+                              {CLUB_MAIN_CONTACT.phone}
                             </p>
                           </div>
                         </div>
