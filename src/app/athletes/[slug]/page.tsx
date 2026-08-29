@@ -2,6 +2,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -94,12 +95,12 @@ export async function generateMetadata({
     title: `${athlete.name} - Athlète du club`,
     description: `${athlete.name}, athlète du Boxing Club Tours Nord à Tours. Discipline : ${athlete.discipline}. Niveau : ${athlete.level}. Record : ${athlete.record}.`,
     alternates: {
-      canonical: `https://boxingclub-tours.fr/athletes/${athlete.slug}`,
+      canonical: absoluteUrl(`/athletes/${athlete.slug}`),
     },
     openGraph: {
       title: `${athlete.name} - Boxing Club Tours Nord`,
       description: `${athlete.name}, profil athlète du Boxing Club Tours Nord.`,
-      url: `https://boxingclub-tours.fr/athletes/${athlete.slug}`,
+      url: absoluteUrl(`/athletes/${athlete.slug}`),
       siteName: "Boxing Club Tours Nord",
       locale: "fr_FR",
       type: "profile",

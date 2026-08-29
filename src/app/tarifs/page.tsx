@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   description:
     "Tarifs 2026-2027 du Boxing Club Tours Nord, Tours Métropole et La Riche : cotisation adulte 210 €, enfant 200 €, forfaits 2 et 3 salles, assurance comprise.",
   alternates: {
-    canonical: "https://boxingclub-tours.fr/tarifs",
+    canonical: absoluteUrl("/tarifs"),
   },
 };
 

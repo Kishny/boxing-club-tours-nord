@@ -1,14 +1,14 @@
 // =====================================================
 // IMPORT
 // =====================================================
+import { SITE_URL } from "@/data/site";
 import type { MetadataRoute } from "next";
 
 // =====================================================
 // SITEMAP DU SITE
-// IMPORTANT : remplace le domaine final par le vrai
 // =====================================================
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://boxingclub-tours.fr";
+  const baseUrl = SITE_URL;
 
   return [
     {

@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   description:
     "Rejoignez le Boxing Club Tours Nord, un club de boxe à Tours proposant Kickboxing, K1 Rules, Full Contact, Low Kick et Point Fighting pour tous les niveaux.",
   alternates: {
-    canonical: "https://boxingclub-tours.fr/",
+    canonical: absoluteUrl("/"),
   },
 };
 
@@ -27,15 +28,14 @@ export const metadata: Metadata = {
 export default function Home() {
   // ---------------------------------------------------
   // DONNÉES STRUCTURÉES JSON-LD
-  // IMPORTANT : remplace les infos par les vraies
   // ---------------------------------------------------
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "SportsClub",
     name: "Boxing Club Tours Nord",
-    url: "https://boxingclub-tours.fr",
-    logo: "https://boxingclub-tours.fr/images/logo.png",
-    image: "https://boxingclub-tours.fr/images/og-image.jpg",
+    url: absoluteUrl("/"),
+    logo: absoluteUrl("/images/logo.png"),
+    image: absoluteUrl("/images/og-image.jpg"),
     telephone: "+33 6 08 95 66 66",
     email: "bctnbctmbclr@gmail.com",
     address: {

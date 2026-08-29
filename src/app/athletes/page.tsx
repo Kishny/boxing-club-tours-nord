@@ -2,6 +2,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "Découvrez les athlètes du Boxing Club Tours Nord à Tours : profils, disciplines, palmarès, progression et esprit du club.",
   alternates: {
-    canonical: "https://boxingclub-tours.fr/athletes",
+    canonical: absoluteUrl("/athletes"),
   },
 };
 

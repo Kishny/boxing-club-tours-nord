@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -108,12 +109,12 @@ export async function generateMetadata({
     title: `${disc.title} - Discipline · Boxing Club Tours Nord`,
     description,
     alternates: {
-      canonical: `https://boxingclub-tours.fr/disciplines/${disc.slug}`,
+      canonical: absoluteUrl(`/disciplines/${disc.slug}`),
     },
     openGraph: {
       title: `${disc.title} — Boxing Club Tours Nord`,
       description,
-      url: `https://boxingclub-tours.fr/disciplines/${disc.slug}`,
+      url: absoluteUrl(`/disciplines/${disc.slug}`),
       siteName: "Boxing Club Tours Nord",
       locale: "fr_FR",
       type: "article",

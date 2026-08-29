@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Découvrez les disciplines du Boxing Club Tours Nord à Tours : Kickboxing, Muaythai, Pancrace, Boxe anglaise, Savate Boxe Française, Aérokick et Cardio Step.",
   alternates: {
-    canonical: "https://boxingclub-tours.fr/disciplines",
+    canonical: absoluteUrl("/disciplines"),
   },
 };
 

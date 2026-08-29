@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORT
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { MetadataRoute } from "next";
 
 // =====================================================
@@ -12,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://boxingclub-tours.fr/sitemap.xml",
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

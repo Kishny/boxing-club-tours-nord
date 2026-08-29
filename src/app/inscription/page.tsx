@@ -2,6 +2,7 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import InscriptionPageClient from "./InscriptionPageClient";
 
@@ -25,13 +26,13 @@ export const metadata: Metadata = {
     "boxing club tours nord",
   ],
   alternates: {
-    canonical: "https://boxingclub-tours.fr/inscription",
+    canonical: absoluteUrl("/inscription"),
   },
   openGraph: {
     title: "Inscription | Boxing Club Tours Nord",
     description:
       "Rejoignez le Boxing Club Tours Nord : demande d’adhésion, orientation personnalisée, séance d’essai et accès à un cadre structuré pour progresser.",
-    url: "https://boxingclub-tours.fr/inscription",
+    url: absoluteUrl("/inscription"),
     siteName: "Boxing Club Tours Nord",
     locale: "fr_FR",
     type: "website",

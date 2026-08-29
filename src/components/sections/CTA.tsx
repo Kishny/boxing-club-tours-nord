@@ -3,6 +3,8 @@
 // =====================================================
 // IMPORTS
 // =====================================================
+import { CLUB_SOCIALS } from "@/data/contact";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
@@ -268,7 +270,7 @@ export default function CTA() {
                     Suivre le club
                   </p>
                   <h3 className="mt-1 text-[1rem] font-extrabold leading-5 text-white">
-                    Recevez les actualités du club
+                    Suivez l’actualité du club
                   </h3>
                 </div>
               </div>
@@ -291,8 +293,8 @@ export default function CTA() {
               <div className="overflow-hidden">
                 <div className="relative z-10 border-t border-white/10 px-4 pb-4 pt-3">
                   <p className="text-[0.9rem] leading-6 text-white/75">
-                    Galas, stages, annonces et temps forts de la saison
-                    directement dans votre boîte mail.
+                    Galas, stages, annonces et temps forts de la saison :
+                    tout est publié sur les réseaux du club.
                   </p>
 
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -307,39 +309,29 @@ export default function CTA() {
                     </span>
                   </div>
 
-                  <div className="mt-4">
-                    <form className="flex flex-col gap-2.5">
-                      <div className="relative w-full">
-                        <input
-                          type="email"
-                          placeholder="Votre adresse email"
-                          className="
-                            min-h-[46px] w-full rounded-full border border-white/10
-                            bg-white px-4 py-2.5 text-sm text-black
-                            outline-none transition-all duration-300
-                            placeholder:text-zinc-500
-                            focus:border-amber-300 focus:ring-2 focus:ring-amber-300/20
-                          "
-                          required
-                        />
-                      </div>
+                  <div className="mt-4 flex flex-col gap-2.5">
+                    <a
+                      href={CLUB_SOCIALS.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-amber-400 px-4 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-amber-500"
+                    >
+                      <FaFacebookF size={15} />
+                      Suivre sur Facebook
+                    </a>
 
-                      <button
-                        type="submit"
-                        className="
-                          inline-flex min-h-[46px] items-center justify-center
-                          rounded-full bg-amber-400 px-4 py-2.5
-                          text-sm font-semibold text-black
-                          transition-all duration-300
-                          hover:bg-amber-500
-                        "
-                      >
-                        S’inscrire
-                      </button>
-                    </form>
+                    <a
+                      href={CLUB_SOCIALS.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12]"
+                    >
+                      <FaInstagram size={16} />
+                      Suivre sur Instagram
+                    </a>
 
-                    <p className="mt-2.5 text-[0.66rem] leading-5 text-white/45">
-                      Pas de spam. Seulement les informations utiles du club.
+                    <p className="mt-1 text-[0.66rem] leading-5 text-white/45">
+                      Photos, vidéos et vie du club au quotidien.
                     </p>
                   </div>
                 </div>
@@ -469,12 +461,12 @@ export default function CTA() {
                 </div>
 
                 <h3 className="mt-4 text-[1.45rem] font-black leading-[1.02] text-white sm:text-[1.6rem] md:mt-5 md:text-[1.9rem]">
-                  Recevez les actualités du club
+                  Suivez l’actualité du club
                 </h3>
 
                 <p className="mt-3 max-w-xl text-[0.9rem] leading-6 text-white/75 md:text-[0.98rem]">
-                  Galas, stages, annonces et temps forts de la saison
-                  directement dans votre boîte mail.
+                  Galas, stages, annonces et temps forts de la saison : tout
+                  est publié sur les réseaux du club.
                 </p>
 
                 <div className="mt-3 flex flex-wrap gap-2 md:mt-4 md:gap-2.5">
@@ -491,43 +483,30 @@ export default function CTA() {
               </div>
 
               <div className="mt-5 md:mt-6">
-                <form className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                  <div className="relative w-full">
-                    <input
-                      type="email"
-                      placeholder="Votre adresse email"
-                      className="
-                        min-h-[48px] w-full rounded-full border border-white/10
-                        bg-white px-4 py-2.5 text-sm text-black
-                        shadow-[0_8px_18px_rgba(255,255,255,0.06)]
-                        outline-none transition-all duration-300
-                        placeholder:text-zinc-500
-                        focus:border-amber-300 focus:ring-2 focus:ring-amber-300/20
-                        md:px-5 md:py-3
-                      "
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="
-                      inline-flex min-h-[48px] shrink-0 items-center justify-center
-                      rounded-full bg-amber-400 px-4 py-2.5
-                      text-sm font-semibold text-black
-                      transition-all duration-300
-                      hover:-translate-y-[1px]
-                      hover:bg-amber-500
-                      hover:shadow-[0_12px_26px_rgba(251,191,36,0.16)]
-                      md:px-5 md:py-3
-                    "
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+                  <a
+                    href={CLUB_SOCIALS.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-amber-400 px-5 py-3 text-sm font-semibold text-black transition-all duration-300 hover:-translate-y-[1px] hover:bg-amber-500 hover:shadow-[0_12px_26px_rgba(251,191,36,0.16)]"
                   >
-                    S’inscrire
-                  </button>
-                </form>
+                    <FaFacebookF size={15} />
+                    Suivre sur Facebook
+                  </a>
+
+                  <a
+                    href={CLUB_SOCIALS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-[1px] hover:border-white/25 hover:bg-white/[0.12]"
+                  >
+                    <FaInstagram size={16} />
+                    Suivre sur Instagram
+                  </a>
+                </div>
 
                 <p className="mt-2.5 text-[0.68rem] leading-5 text-white/45 md:mt-3 md:text-[0.72rem]">
-                  Pas de spam. Seulement les informations utiles du club.
+                  Photos, vidéos et vie du club au quotidien.
                 </p>
               </div>
             </div>

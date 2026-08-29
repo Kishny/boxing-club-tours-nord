@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORTS GLOBAUX
 // =====================================================
+import { absoluteUrl } from "@/data/site";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     "club de boxe tours métropole",
   ],
 
-  metadataBase: new URL("https://boxingclub-tours.fr"),
+  metadataBase: new URL(absoluteUrl("/")),
 
   // =====================================================
   // FAVICONS ET ICÔNES
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     title: "Boxing Club Tours Nord - Club de boxe à Tours",
     description:
       "Découvrez le Boxing Club Tours Nord et rejoignez un club d'excellence dédié aux sports de combat à Tours.",
-    url: "https://boxingclub-tours.fr",
+    url: absoluteUrl("/"),
     siteName: "Boxing Club Tours Nord",
     locale: "fr_FR",
     type: "website",

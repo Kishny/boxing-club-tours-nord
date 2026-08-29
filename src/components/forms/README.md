@@ -1,7 +1,8 @@
 # Formulaires mis de côté
 
-Les deux formulaires du site (inscription et contact) ont été **retirés des pages
-le 29/08/2026**. Ils sont conservés ici, intacts, et ne sont importés nulle part.
+Les trois formulaires du site (inscription, contact et newsletter) ont été
+**retirés des pages le 29/08/2026**. Ils sont conservés ici, intacts, et ne sont
+importés nulle part.
 
 ## Pourquoi ils ont été retirés
 
@@ -13,6 +14,17 @@ n'arrivait jamais.
 
 Ils ont été remplacés sur les pages par un bloc de contact direct (téléphone,
 email, adresses des salles), qui lui fonctionne.
+
+### Cas particulier : la newsletter
+
+`NewsletterForm.tsx` était le bloc « Recevez les actualités du club » de la page
+d'accueil. Il ne suffit pas de lui ajouter un `onSubmit` : il n'existe aucune
+liste de diffusion derrière. Le remettre suppose de créer un compte chez un
+service d'emailing (Brevo, Mailchimp…), d'y créer une liste, puis une route API
+qui y inscrit l'adresse — et de prévoir le lien de désinscription obligatoire.
+
+Il a été remplacé sur l'accueil par deux boutons vers les pages Facebook et
+Instagram du club, qui sont le canal réellement utilisé pour annoncer les galas.
 
 ## Comment les remettre
 
