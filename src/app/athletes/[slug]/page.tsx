@@ -45,7 +45,7 @@ function mapDbToAthlete(doc: Record<string, unknown>, i: number): Athlete {
     level: (doc.level as string) || "Confirmé",
     record: (doc.record as string) || "",
     image: (doc.photo as string) || "",
-    imagePosition: "50% 18%",
+    imagePosition: "50% 12%",
     description: (doc.description as string) || "",
     achievements: Array.isArray(doc.palmares) ? (doc.palmares as string[]) : [],
     accent,

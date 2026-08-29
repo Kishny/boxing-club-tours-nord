@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowRight, Trophy, ShieldCheck } from "lucide-react";
+import { cardImage } from "@/data/athletes";
 import type { Athlete } from "@/data/athletes";
 
 // =====================================================
@@ -65,19 +66,19 @@ export default function AthleteCard({ athlete, index = 0 }: Props) {
       {/* =============================================
           IMAGE / HERO CARD
       ============================================= */}
-      <div className="relative h-44 w-full overflow-hidden sm:h-48 md:h-56 xl:h-60">
+      <div className="relative aspect-square w-full overflow-hidden">
         <motion.div
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="relative h-full w-full"
         >
           <Image
-            src={athlete.image}
+            src={cardImage(athlete.image)}
             alt={athlete.name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-cover"
-            style={{ objectPosition: athlete.imagePosition }}
+            style={{ objectPosition: "50% 0%" }}
           />
         </motion.div>
 

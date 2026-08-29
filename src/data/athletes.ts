@@ -22,6 +22,17 @@ export type Athlete = {
 // DONNÉES ATHLÈTES - Compétiteurs du Boxing Club Tours Nord
 // Données extraites de "Infos site club Boxe - Compétiteurs"
 // =====================================================
+/**
+ * Vignette recadrée pour les cartes : cadrage buste centré sur le visage,
+ * généré à partir du portrait (voir scripts/ ou la note dans le README).
+ * Retombe sur le portrait complet si la vignette n'existe pas.
+ */
+export function cardImage(image: string): string {
+  return image.startsWith("/images/athletes/") && image.endsWith(".png")
+    ? image.replace(/\.png$/, "-card.webp")
+    : image;
+}
+
 export const athletes: Athlete[] = [
   {
     id: 1,
@@ -31,7 +42,7 @@ export const athletes: Athlete[] = [
     level: "Semi-professionnel",
     record: "13 victoires • 5 défaites",
     image: "/images/athletes/conde-moussa.png",
-    imagePosition: "50% 45%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 13 victoires • 5 défaites",
     achievements: [
@@ -51,7 +62,7 @@ export const athletes: Athlete[] = [
     level: "Professionnel",
     record: "20 victoires • 6 défaites",
     image: "/images/athletes/ozmanyan-rustam.png",
-    imagePosition: "50% 40%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 20 victoires • 6 défaites",
     achievements: [
@@ -69,7 +80,7 @@ export const athletes: Athlete[] = [
     level: "Avancé",
     record: "22 victoires • 10 défaites",
     image: "/images/athletes/raed-saadi-ali.png",
-    imagePosition: "30% 35%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 22 victoires • 10 défaites",
     achievements: [
@@ -87,7 +98,7 @@ export const athletes: Athlete[] = [
     level: "Professionnel",
     record: "19 victoires • 5 défaites",
     image: "/images/athletes/raed-saadi-hayder.png",
-    imagePosition: "70% 35%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 19 victoires • 5 défaites",
     achievements: [
@@ -105,7 +116,7 @@ export const athletes: Athlete[] = [
     level: "Confirmé",
     record: "14 victoires • 9 défaites",
     image: "/images/athletes/singh-balraj.png",
-    imagePosition: "35% 35%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Full Contact. Record: 14 victoires • 9 défaites",
     achievements: [
@@ -123,7 +134,7 @@ export const athletes: Athlete[] = [
     level: "Professionnel",
     record: "26 victoires • 7 défaites",
     image: "/images/athletes/svay-anthony.png",
-    imagePosition: "50% 30%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 26 victoires • 7 défaites",
     achievements: [
@@ -141,7 +152,7 @@ export const athletes: Athlete[] = [
     level: "Professionnel",
     record: "23 victoires • 4 défaites",
     image: "/images/athletes/ulmann-jefferson.png",
-    imagePosition: "50% 40%",
+    imagePosition: "50% 12%",
     description:
       "Combattant aguerri en Kickboxing. Record: 23 victoires • 4 défaites",
     achievements: [
@@ -159,7 +170,7 @@ export const athletes: Athlete[] = [
     level: "Professionnel",
     record: "38 victoires • 16 défaites",
     image: "/images/athletes/bourges-jordan.png",
-    imagePosition: "50% 30%",
+    imagePosition: "50% 12%",
     description:
       "Le plus expérimenté du club : 54 combats disputés, 38 victoires dont 9 avant la limite. Compétiteur du Boxing Club La Riche en catégorie 63,5 kg, entraîné par Brian Macé.",
     achievements: [
@@ -180,7 +191,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "3 victoires • 0 défaite",
     image: "/images/athletes/dufay-clement.png",
-    imagePosition: "50% 30%",
+    imagePosition: "50% 12%",
     description:
       "Surnommé « l’Immortel », compétiteur du Boxing Club La Riche en catégorie 71 kg. Invaincu sur ses trois premiers combats.",
     achievements: [
@@ -199,7 +210,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "—",
     image: "/images/athletes/feirera-mota-goncalo.png",
-    imagePosition: "50% 30%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur en Kickboxing au sein du club.",
     achievements: [
@@ -217,7 +228,7 @@ export const athletes: Athlete[] = [
     level: "Compétitrice",
     record: "—",
     image: "/images/athletes/gomes-angelina.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétitrice en Kickboxing au sein du club.",
     achievements: [
@@ -235,7 +246,7 @@ export const athletes: Athlete[] = [
     level: "Compétitrice",
     record: "—",
     image: "/images/athletes/gomes-catalina.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétitrice en Kickboxing au sein du club.",
     achievements: [
@@ -253,7 +264,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "—",
     image: "/images/athletes/kamdoum-gabin.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur en Kickboxing au sein du club.",
     achievements: [
@@ -271,7 +282,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "—",
     image: "/images/athletes/metreveli-nika.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur en Kickboxing au sein du club.",
     achievements: [
@@ -289,7 +300,7 @@ export const athletes: Athlete[] = [
     level: "Confirmé",
     record: "8 victoires • 7 défaites • 1 nul",
     image: "/images/athletes/ozmanyan-roman.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Surnommé « Goldenboy », compétiteur du Boxing Club Tours Nord en catégorie 57-60 kg. Record : 8 victoires • 7 défaites • 1 nul sur 16 combats.",
     achievements: [
@@ -308,7 +319,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "1 victoire • 2 défaites",
     image: "/images/athletes/zoundi-mateo.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur du Boxing Club La Riche en catégorie -67 kg, engagé en classe B.",
     achievements: [
@@ -327,7 +338,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "7 victoires • 6 défaites • 2 nuls",
     image: "/images/athletes/guasch-louka.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur du Boxing Club La Riche en catégorie -37 kg, déjà quinze combats au compteur.",
     achievements: [
@@ -346,7 +357,7 @@ export const athletes: Athlete[] = [
     level: "Confirmé",
     record: "12 victoires • 5 défaites",
     image: "/images/athletes/lahmer-walid.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Surnommé « Chlefman », compétiteur du Boxing Club La Riche en catégorie 60 kg.",
     achievements: [
@@ -366,7 +377,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "2 victoires • 1 défaite",
     image: "/images/athletes/meberbeche-mohamed.png",
-    imagePosition: "50% 20%",
+    imagePosition: "50% 12%",
     description:
       "Surnommé « Momo Labf », compétiteur du Boxing Club Tours Métropole en catégorie -60 kg.",
     achievements: [
@@ -385,7 +396,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "1 victoire • 3 défaites",
     image: "/images/athletes/tahraoui-medhi.png",
-    imagePosition: "50% 20%",
+    imagePosition: "50% 12%",
     description:
       "Surnommé « Simba », compétiteur en muay thaï, catégorie -67 kg. Finaliste de la Coupe de France 2025.",
     achievements: [
@@ -405,7 +416,7 @@ export const athletes: Athlete[] = [
     level: "Compétiteur",
     record: "3 victoires • 5 défaites • 3 nuls",
     image: "/images/athletes/vrillon-angelo.png",
-    imagePosition: "50% 25%",
+    imagePosition: "50% 12%",
     description:
       "Compétiteur du Boxing Club La Riche, en catégorie -63,5 / -67 kg.",
     achievements: [
