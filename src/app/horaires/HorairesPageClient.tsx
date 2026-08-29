@@ -12,6 +12,7 @@ import {
   FileText,
   MapPin,
   Maximize2,
+  Info,
 } from "lucide-react";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
@@ -41,6 +42,7 @@ type PlanningItem = {
   audience: string;
   coach?: string;
   level: string;
+  updatedAt?: string;
 };
 
 type ScheduleCell = {
@@ -85,6 +87,15 @@ type DayBlock = {
 // AFFICHES DES PLANNINGS (public/documents/)
 // Nouvelle saison : remplacer le PDF et le libellé.
 // ──────────────────────────────────────────────────────
+
+// Date des affiches fournies par le club. À changer en même temps que
+// les PDF et les images de public/images/plannings/.
+const AFFICHES_UPDATED_AT = "29 août 2026";
+
+// Date de la dernière saisie manuelle du planning en base. Sert de repli
+// tant qu'aucun créneau n'a été modifié depuis l'admin (les modifications
+// faites ensuite sont horodatées automatiquement).
+const GRILLE_UPDATED_AT = "29 août 2026";
 
 type PlanningFile = {
   clubId: number;
@@ -157,6 +168,21 @@ const shortDayLabels: Record<DayKey, string> = {
 // ──────────────────────────────────────────────────────
 // HELPERS
 // ──────────────────────────────────────────────────────
+
+function formatUpdatedAt(items: PlanningItem[]): string {
+  const dates = items
+    .map((i) => (i.updatedAt ? new Date(i.updatedAt) : null))
+    .filter((d): d is Date => d instanceof Date && !Number.isNaN(d.getTime()));
+
+  if (dates.length === 0) return GRILLE_UPDATED_AT;
+
+  const latest = new Date(Math.max(...dates.map((d) => d.getTime())));
+  return latest.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 function parseStartMinutes(time: string) {
   // Accepte « 18h30 », « 18H30 » et « 18:30 »
@@ -345,6 +371,11 @@ export default function HorairesPageClient() {
     [filteredData],
   );
 
+  const grilleUpdatedAt = useMemo(
+    () => formatUpdatedAt(planningData),
+    [planningData],
+  );
+
   const activePlanning = useMemo(
     () => PLANNING_FILES.find((p) => p.clubId === activeClubId),
     [activeClubId],
@@ -530,6 +561,10 @@ export default function HorairesPageClient() {
                   filtres se trouvent juste en dessous
                 </p>
 
+                <p className="mt-1.5 text-center text-[0.74rem] text-white/30">
+                  Affiche du club · mise à jour le {AFFICHES_UPDATED_AT}
+                </p>
+
                 <div className="mt-5 flex flex-col items-center justify-center gap-2.5 sm:flex-row md:mt-7 md:gap-3">
                   <a
                     href={activePlanning.file}
@@ -559,6 +594,24 @@ export default function HorairesPageClient() {
 
         <section className="py-10">
           <div className="mx-auto max-w-7xl px-6">
+            {/* ── EN-TÊTE DE LA GRILLE ──────────── */}
+
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-[1.4rem] font-black uppercase tracking-[0.02em] text-white md:text-2xl">
+                  La grille détaillée
+                </h2>
+                <p className="mt-1.5 text-[0.86rem] leading-5 text-white/50">
+                  Recherchez une discipline, filtrez par public, naviguez jour
+                  par jour.
+                </p>
+              </div>
+
+              <p className="shrink-0 text-[0.74rem] text-white/30 sm:text-right">
+                Grille · mise à jour le {grilleUpdatedAt}
+              </p>
+            </div>
+
             {/* ── CLUB SELECTOR ──────────────── */}
 
             <div className="mb-8 flex flex-wrap gap-3">
@@ -766,6 +819,21 @@ export default function HorairesPageClient() {
                 </div>
               </>
             )}
+
+            {/* ── MENTION EN CAS DE DIVERGENCE ──── */}
+
+            <div className="mt-8 flex items-start gap-3 rounded-[18px] border border-white/10 bg-white/[0.03] p-4 md:mt-12 md:p-5">
+              <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-amber-300/20 bg-amber-300/10 text-amber-300">
+                <Info size={15} />
+              </span>
+
+              <p className="text-[0.84rem] leading-6 text-white/55 md:text-[0.88rem]">
+                Cette grille reprend le programme affiché dans les salles. En
+                cas de différence, <strong className="font-semibold text-white/75">l’affiche officielle du club fait
+                foi</strong> — et en période de compétition, certains cours du samedi
+                peuvent ne pas être assurés : voir avec l’entraîneur.
+              </p>
+            </div>
           </div>
         </section>
 

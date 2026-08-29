@@ -12,6 +12,7 @@ import {
   BookOpen,
   Building2,
   CalendarDays,
+  AlertTriangle,
 } from "lucide-react";
 
 // ──────────────────────────────────────────────
@@ -354,6 +355,27 @@ export default function PlanningAdminPage() {
             <Plus size={16} />
             <span className="hidden sm:inline">Nouveau</span>
           </button>
+        </div>
+
+        {/* Rappel : la grille du site et l'affiche PDF sont deux sources
+            distinctes, l'une ne met pas l'autre à jour. */}
+        <div className="mb-8 flex items-start gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.07] p-4 md:p-5">
+          <AlertTriangle
+            size={18}
+            className="mt-0.5 shrink-0 text-amber-300"
+          />
+          <div>
+            <p className="text-sm font-bold text-amber-200">
+              Modifier un créneau ici ne met pas à jour l’affiche du club
+            </p>
+            <p className="mt-1.5 text-sm leading-6 text-white/55">
+              La page Horaires montre deux choses : cette grille, et l’affiche
+              PDF de la saison affichée au-dessus. Elles sont indépendantes.
+              Après un changement ici, envoyez la nouvelle affiche à votre
+              développeur pour qu’il la remplace — sinon le site affichera deux
+              plannings différents.
+            </p>
+          </div>
         </div>
 
         {/* Stats */}

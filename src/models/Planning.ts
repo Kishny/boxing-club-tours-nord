@@ -10,7 +10,7 @@ const PlanningSchema = new mongoose.Schema({
   audience: String,
   level: String,
   coach: String,
-});
+}, { timestamps: true });
 
 export default mongoose.models.Planning ||
   mongoose.model("Planning", PlanningSchema);
