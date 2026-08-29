@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "Tarifs des clubs",
   description:
-    "Consultez les tarifs du Boxing Club Tours Nord, Tours Métropole et La Riche : adhésion, formules, séance d’essai et informations pratiques.",
+    "Tarifs 2026-2027 du Boxing Club Tours Nord, Tours Métropole et La Riche : cotisation adulte 210 €, enfant 200 €, forfaits 2 et 3 salles, assurance comprise.",
   alternates: {
     canonical: "https://boxingclub-tours.fr/tarifs",
   },
@@ -43,6 +43,7 @@ type PricingPlan = {
   description: string;
   features: string[];
   badge?: string;
+  note?: string;
 };
 
 const ACCENT_PALETTE = ["#22c55e", "#ef4444", "#f59e0b", "#60a5fa", "#a855f7"];
@@ -54,59 +55,79 @@ const GLOW_PALETTE = [
   "rgba(168,85,247,0.22)",
 ];
 
+// Cotisations annuelles — source : fiches d'inscription et programmes
+// 2026-2027 des trois salles. Le forfait adulte est à 230 € au BCTM.
 const hardcodedPricingPlans: PricingPlan[] = [
   {
     id: 1,
-    name: "Formule Découverte",
-    audience: "Enfants 6+ / Débutants",
-    price: "29€",
-    frequency: "/ mois",
+    name: "Forfait Enfant",
+    audience: "Moins de 16 ans · École de boxe",
+    price: "200 €",
+    frequency: "/ an",
     accent: "#22c55e",
     glow: "rgba(34,197,94,0.20)",
     description:
-      "Une formule pensée pour démarrer sereinement, découvrir l’univers du club et intégrer un premier rythme d’entraînement.",
+      "L’école de boxe, ouverte dès 6 ans : multiboxe, apprentissage progressif et encadrement par des moniteurs diplômés.",
     features: [
-      "Accès à 1 à 2 créneaux par semaine",
-      "Encadrement initiation",
-      "Suivi progressif",
-      "Accès aux clubs selon créneaux disponibles",
+      "Accès à l’école de boxe de votre salle",
+      "Multiboxe : kick boxing, K1, muay thaï et boxe anglaise",
+      "Groupes par âge, de 6 à 16 ans",
+      "Assurance obligatoire comprise",
     ],
   },
   {
     id: 2,
-    name: "Formule Club",
-    audience: "Ados / Adultes",
-    price: "49€",
-    frequency: "/ mois",
+    name: "Forfait Adulte",
+    audience: "16 ans et plus · Tous les cours",
+    price: "210 €",
+    frequency: "/ an",
     accent: "#ef4444",
     glow: "rgba(239,68,68,0.22)",
     description:
-      "La formule centrale du club, pensée pour une pratique régulière avec un vrai rythme de progression.",
+      "L’accès à tous les cours de votre salle, du loisir à la compétition, sur l’ensemble des disciplines du planning.",
     features: [
-      "Accès à plusieurs créneaux hebdomadaires",
-      "Travail technique et physique",
-      "Accès multi-disciplines selon planning",
-      "Formule idéale pour progression continue",
+      "Accès à tous les cours de votre salle",
+      "Toutes les disciplines : anglaise, française, thaï, kick, K1, MMA…",
+      "Créneaux loisirs comme compétition",
+      "Assurance obligatoire comprise",
     ],
-    badge: "La plus choisie",
+    badge: "Le plus choisi",
+    note: "230 € / an au Boxing Club Tours Métropole",
   },
   {
     id: 3,
-    name: "Formule Performance",
-    audience: "Confirmés / Compétition",
-    price: "69€",
-    frequency: "/ mois",
+    name: "Forfait 2 salles",
+    audience: "Deux salles au choix",
+    price: "285 €",
+    frequency: "/ an",
     accent: "#f59e0b",
     glow: "rgba(245,158,11,0.22)",
     description:
-      "Pour les pratiquants qui veulent un engagement plus poussé, plus de volume, plus d’intensité et un vrai cadre d’évolution.",
+      "Pour ceux qui veulent plus de créneaux dans la semaine, ou combiner deux disciplines enseignées dans des salles différentes.",
     features: [
-      "Accès prioritaire aux créneaux avancés",
-      "Séances intensité / préparation",
-      "Approche orientée performance",
-      "Idéal pour compétiteurs ou profils engagés",
+      "Accès à tous les cours de deux salles au choix",
+      "Beaucoup plus de créneaux disponibles",
+      "Idéal pour combiner deux disciplines",
+      "Assurance obligatoire comprise",
     ],
-    badge: "Engagement fort",
+  },
+  {
+    id: 4,
+    name: "Forfait 3 salles",
+    audience: "Accès aux trois clubs",
+    price: "350 €",
+    frequency: "/ an",
+    accent: "#60a5fa",
+    glow: "rgba(96,165,250,0.22)",
+    description:
+      "L’accès complet : Tours Nord, La Riche et Tours Métropole, du lundi au samedi, sur l’intégralité des créneaux.",
+    features: [
+      "Accès à tous les cours des trois salles",
+      "Tours Nord, La Riche et Tours Métropole",
+      "Le plus large choix d’horaires et de disciplines",
+      "Assurance obligatoire comprise",
+    ],
+    badge: "Accès complet",
   },
 ];
 
@@ -133,6 +154,7 @@ export default async function TarifsPage() {
             ? (doc.features as string[])
             : [],
           badge: (doc.promo as string) || undefined,
+          note: (doc.reduction as string) || undefined,
         }))
       : hardcodedPricingPlans;
 
@@ -171,20 +193,20 @@ export default async function TarifsPage() {
               </h1>
 
               <p className="mx-auto mt-3 max-w-[23rem] text-[0.88rem] leading-5 text-white/68 sm:max-w-[30rem] sm:text-[0.94rem] sm:leading-6 md:mt-5 md:max-w-3xl md:text-lg md:leading-7">
-                Une structure simple, lisible et évolutive pour présenter les
-                formules du club. Les montants affichés ici sont provisoires et
-                pourront être ajustés facilement.
+                Une cotisation annuelle, assurance comprise, qui donne accès
+                à tous les cours de votre salle — ou des trois si vous voulez
+                tout essayer.
               </p>
 
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:mt-8 md:gap-3">
                 <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
-                  Infos provisoires
+                  Saison 2026 - 2027
                 </span>
                 <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
-                  Remplaçables facilement
+                  Assurance comprise
                 </span>
                 <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[0.66rem] font-semibold text-white/78 sm:px-3 sm:py-1.5 sm:text-[0.72rem] md:px-4 md:py-2 md:text-xs">
-                  Mobile-first
+                  Paiement en 3 fois
                 </span>
               </div>
             </div>
@@ -260,6 +282,15 @@ export default async function TarifsPage() {
                         </span>
                       </div>
 
+                      {plan.note ? (
+                        <p
+                          className="mt-2 text-[0.78rem] font-semibold"
+                          style={{ color: plan.accent }}
+                        >
+                          {plan.note}
+                        </p>
+                      ) : null}
+
                       <p className="mt-4 text-[0.9rem] leading-6 text-white/68 md:text-base md:leading-7">
                         {plan.description}
                       </p>
@@ -331,8 +362,8 @@ export default async function TarifsPage() {
               </h2>
 
               <p className="mx-auto mt-4 max-w-2xl text-[0.9rem] leading-6 text-white/68 md:text-base md:leading-8">
-                Cette section est également prévue pour être facilement
-                modifiable lorsque tu auras les informations définitives.
+                Une cotisation annuelle, réglée à l’inscription, qui couvre
+                toute la saison sportive.
               </p>
             </div>
 
@@ -342,11 +373,12 @@ export default async function TarifsPage() {
                   <ShieldCheck size={20} />
                 </div>
                 <h3 className="mt-4 text-lg font-black uppercase text-white">
-                  Encadrement
+                  Assurance comprise
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-white/66">
-                  Accès à un cadre structuré avec suivi, discipline et logique
-                  de progression.
+                  La cotisation comprend l’assurance obligatoire en cas
+                  d’accident, ainsi que l’encadrement par des moniteurs
+                  diplômés.
                 </p>
               </div>
 
@@ -355,11 +387,11 @@ export default async function TarifsPage() {
                   <CreditCard size={20} />
                 </div>
                 <h3 className="mt-4 text-lg font-black uppercase text-white">
-                  Paiement
+                  Moyens de paiement
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-white/66">
-                  Paiement mensuel, trimestriel ou annuel selon la formule
-                  définitive retenue plus tard.
+                  Espèces, ANCV, Pass’Sport, Passeport Loisirs Jeunes (CAF) et
+                  chèques. La carte bancaire n’est pas acceptée.
                 </p>
               </div>
 
@@ -368,11 +400,11 @@ export default async function TarifsPage() {
                   <Wallet size={20} />
                 </div>
                 <h3 className="mt-4 text-lg font-black uppercase text-white">
-                  Séance d’essai
+                  Paiement en plusieurs fois
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-white/66">
-                  Une séance d’essai pourra être affichée ici avec tarif,
-                  gratuité éventuelle ou conditions.
+                  Jusqu’à trois chèques, remis à l’inscription. Les facilités de
+                  paiement se font par chèque uniquement.
                 </p>
               </div>
 
@@ -381,11 +413,12 @@ export default async function TarifsPage() {
                   <BadgeEuro size={20} />
                 </div>
                 <h3 className="mt-4 text-lg font-black uppercase text-white">
-                  Licence / frais
+                  Inscription en cours d’année
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-white/66">
-                  La licence, les frais annexes ou les conditions d’inscription
-                  seront faciles à remplacer ici.
+                  À partir de janvier, le tarif est dégressif au prorata des
+                  mois passés. Les cotisations déjà réglées ne sont pas
+                  remboursées.
                 </p>
               </div>
             </div>
@@ -403,16 +436,18 @@ export default async function TarifsPage() {
               <div className="relative z-10 mx-auto max-w-3xl">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-amber-300 md:px-4 md:py-2 md:text-[0.72rem] md:tracking-[0.18em]">
                   <Sparkles size={13} className="md:h-[14px] md:w-[14px]" />
-                  Base provisoire
+                  Saison 2026 - 2027
                 </span>
 
                 <h2 className="mt-4 text-[1.7rem] font-black uppercase leading-[0.96] text-white sm:text-[2rem] md:mt-5 md:text-5xl">
-                  Une structure prête à évoluer
+                  Prêt à monter sur le ring ?
                 </h2>
 
                 <p className="mx-auto mt-4 max-w-2xl text-[0.9rem] leading-6 text-white/68 md:text-base md:leading-8">
-                  Cette page est volontairement pensée pour accueillir tes vrais
-                  tarifs plus tard sans casser le design ni toute la structure.
+                  Téléchargez la fiche d’inscription de votre salle, complétez-la
+                  et rapportez-la au club avec une photo, un certificat médical
+                  de moins de trois ans ou le questionnaire de santé, et votre
+                  règlement.
                 </p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -420,7 +455,7 @@ export default async function TarifsPage() {
                     href="/inscription"
                     className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(220,38,38,0.24)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-red-700"
                   >
-                    Commencer une inscription
+                    Fiche d’inscription
                     <ChevronRight size={16} />
                   </Link>
 

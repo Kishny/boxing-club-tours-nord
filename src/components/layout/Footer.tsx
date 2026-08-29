@@ -64,12 +64,14 @@ const ffkmdaLink = {
 const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/association.boxingclub.tours",
     icon: FaFacebookF,
     color: "#ef4444",
     glow: "rgba(239,68,68,0.28)",
   },
   {
+    // TODO : remplacer par l'adresse du compte Instagram du club dès
+    // qu'elle est communiquée.
     name: "Instagram",
     href: "https://www.instagram.com/",
     icon: FaInstagram,
