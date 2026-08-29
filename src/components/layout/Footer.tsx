@@ -15,6 +15,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { CLUB_SOCIALS } from "@/data/contact";
 
 // =====================================================
 // TYPES
@@ -64,16 +65,14 @@ const ffkmdaLink = {
 const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/association.boxingclub.tours",
+    href: CLUB_SOCIALS.facebook,
     icon: FaFacebookF,
     color: "#ef4444",
     glow: "rgba(239,68,68,0.28)",
   },
   {
-    // TODO : remplacer par l'adresse du compte Instagram du club dès
-    // qu'elle est communiquée.
     name: "Instagram",
-    href: "https://www.instagram.com/",
+    href: CLUB_SOCIALS.instagram,
     icon: FaInstagram,
     color: "#f59e0b",
     glow: "rgba(245,158,11,0.28)",

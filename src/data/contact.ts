@@ -29,6 +29,12 @@ export const CLUB_CONTACTS: ClubContact[] = [
   { name: "Brian Macé", phone: "07 83 04 53 84", phoneHref: "+33783045384" },
 ];
 
+// Réseaux sociaux officiels du club.
+export const CLUB_SOCIALS = {
+  facebook: "https://www.facebook.com/association.boxingclub.tours",
+  instagram: "https://www.instagram.com/boxingclubtoursmetropole/",
+};
+
 export type Salle = {
   short: string;
   name: string;

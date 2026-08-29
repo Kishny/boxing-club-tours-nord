@@ -46,6 +46,10 @@ export default function Home() {
       addressCountry: "FR",
     },
     areaServed: "Tours Métropole",
+    sameAs: [
+      "https://www.facebook.com/association.boxingclub.tours",
+      "https://www.instagram.com/boxingclubtoursmetropole/",
+    ],
     sport: [
       "Kickboxing",
       "K1 Rules",

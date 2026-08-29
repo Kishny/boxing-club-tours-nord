@@ -15,6 +15,7 @@ import {
   BadgeEuro,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { CLUB_SOCIALS } from "@/data/contact";
 
 // =====================================================
 // TYPES
@@ -72,12 +73,12 @@ const ffkmdaLink = {
 const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/",
+    href: CLUB_SOCIALS.facebook,
     icon: FaFacebookF,
   },
   {
     name: "Instagram",
-    href: "https://www.instagram.com/",
+    href: CLUB_SOCIALS.instagram,
     icon: FaInstagram,
   },
 ];
