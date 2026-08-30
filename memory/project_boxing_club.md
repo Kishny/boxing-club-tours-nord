@@ -15,9 +15,13 @@ Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
 
 ## Contenu réel en place
 
-- **21 compétiteurs** : 16 fiches complètes, 5 encore génériques (Feirera Mota
-  Gonçalo, Gomes Angelina, Gomes Catalina, Kamdoum Gabin, Metreveli Nika) — à
-  réclamer au club sur le même modèle que les autres.
+- **21 compétiteurs** : 19 fiches complètes. Restent **Gomes Angelina** et
+  **Gomes Catalina**, à réclamer au club sur le même modèle que les autres
+  (nom, surnom, club, coach, catégorie de poids, nombre de combats,
+  victoires/défaites/nuls, KO, titres).
+- **Disciplines représentées** : Kickboxing, Muay Thai, K1 et Full Contact.
+  Le filtre de la page Athlètes est construit à partir de ces valeurs, donc
+  toute nouvelle graphie crée une entrée de filtre en plus.
 - **59 créneaux** saison 2026-2027, avec coach, transcrits des trois affiches.
 - **Historique** des deux clubs (BCLR 1991, BCTN 2004), avec sélecteur d'onglets.
 - **Tarifs annuels** : enfant 200 €, adulte 210 € (230 € au BCTM), 2 salles
@@ -29,6 +33,18 @@ Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
   Bialy à La Riche, billetterie sur toureventfight.com.
 - **Documents** téléchargeables dans `public/documents/` : fiches d'inscription
   et plannings des trois salles.
+
+## Points de vigilance sur les fiches athlètes
+
+- **Ferreira Gonçalo** : le site l'affichait « Feirera Mota Gonçalo », d'après
+  le nom de son dossier photo. Sa fiche donne **Ferreira**. Le nom est corrigé,
+  mais le slug reste `feirera-mota-goncalo` pour ne pas casser l'URL déjà en
+  ligne. Le corriger suppose de renommer aussi ses deux images et le document
+  en base.
+- **Ne jamais publier** les dates de naissance, numéros de licence, comptes
+  Instagram/TikTok, liens de musique d'entrée ni téléphones des coachs que
+  contiennent les fiches. Les cartes s'en tiennent au nom, à la discipline, au
+  niveau, au record, au palmarès et à la catégorie de poids.
 
 ## Décisions prises
 
@@ -55,7 +71,10 @@ Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
 4. **Page 404 par défaut de Next**, en anglais, sans menu.
 5. **Sitemap** — les 21 fiches athlètes manquent, il faudrait le rendre async.
 6. `?discipline=` transmis par les liens mais ignoré par la page Inscription.
-7. **DNS** : `boxingtoursmetropole.fr` pointe encore vers OVH. À rattacher au
+7. **Session admin** : le cookie JWT expire vite. Avant une série d'écritures
+   en base, tester par un appel qui doit échouer en 422 et non en 401 — sinon
+   demander à l'utilisateur de se reconnecter à `/admin`.
+8. **DNS** : `boxingtoursmetropole.fr` pointe encore vers OVH. À rattacher au
    projet Vercel avant la mise en ligne, sinon les URL canoniques désignent
    l'ancien site.
 
