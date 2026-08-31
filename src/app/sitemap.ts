@@ -1,6 +1,7 @@
 // =====================================================
 // IMPORT
 // =====================================================
+import { athletes } from "@/data/athletes";
 import { SITE_URL } from "@/data/site";
 import type { MetadataRoute } from "next";
 
@@ -65,5 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.8,
     },
+    // Une entrée par fiche de compétiteur : ce sont les pages au contenu
+    // le plus spécifique du site.
+    ...athletes.map((athlete) => ({
+      url: `${baseUrl}/athletes/${athlete.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ];
 }

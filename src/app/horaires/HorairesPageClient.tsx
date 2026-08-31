@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -31,7 +31,7 @@ type DayKey =
   | "Samedi"
   | "Dimanche";
 
-type PlanningItem = {
+export type PlanningItem = {
   _id?: string;
   club: string;
   discipline: string;
@@ -318,9 +318,12 @@ function CourseCard({ slot }: { slot: DayBlock }) {
 // PAGE
 // ──────────────────────────────────────────────────────
 
-export default function HorairesPageClient() {
-  const [planningData, setPlanningData] = useState<PlanningItem[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function HorairesPageClient({
+  initialPlanning,
+}: {
+  initialPlanning: PlanningItem[];
+}) {
+  const [planningData] = useState<PlanningItem[]>(initialPlanning);
 
   // Filters
   const [search, setSearch] = useState("");
@@ -330,25 +333,7 @@ export default function HorairesPageClient() {
   const [activeClubId, setActiveClubId] = useState(1);
 
   // Mobile day navigation
-  const [selectedDay, setSelectedDay] = useState<DayKey | null>(null);
-
-  // ── FETCH ────────────────────────────────────
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/planning");
-        if (!res.ok) return;
-        const data: PlanningItem[] = await res.json();
-        setPlanningData(data);
-      } catch {
-        // fallback data is served by the API
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  const [pickedDay, setPickedDay] = useState<DayKey | null>(null);
 
   // ── FILTER DATA ──────────────────────────────
 
@@ -404,15 +389,12 @@ export default function HorairesPageClient() {
     [activeClub],
   );
 
-  // ── SET DEFAULT MOBILE DAY ───────────────────
+  // ── JOUR AFFICHÉ SUR MOBILE ──────────────────
+  // Valeur dérivée : le jour choisi s'il appartient au club actif, sinon le
+  // premier jour disponible. Évite un setState dans un effet.
 
-  useEffect(() => {
-    if (shownDays.length > 0) {
-      setSelectedDay((prev) =>
-        shownDays.includes(prev as DayKey) ? prev : shownDays[0],
-      );
-    }
-  }, [shownDays]);
+  const selectedDay: DayKey | null =
+    pickedDay && shownDays.includes(pickedDay) ? pickedDay : (shownDays[0] ?? null);
 
   // ── UNIQUE AUDIENCES ─────────────────────────
 
@@ -429,28 +411,13 @@ export default function HorairesPageClient() {
 
   const goPrev = () => {
     if (selectedDayIndex > 0)
-      setSelectedDay(shownDays[selectedDayIndex - 1]);
+      setPickedDay(shownDays[selectedDayIndex - 1]);
   };
 
   const goNext = () => {
     if (selectedDayIndex < shownDays.length - 1)
-      setSelectedDay(shownDays[selectedDayIndex + 1]);
+      setPickedDay(shownDays[selectedDayIndex + 1]);
   };
-
-  // ── LOADING ──────────────────────────────────
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-white">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-14 w-14 animate-spin rounded-full border-4 border-red-500 border-t-transparent" />
-          <p className="text-lg font-semibold text-white/70">
-            Chargement du planning...
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   // ── RENDER ───────────────────────────────────
 
@@ -714,7 +681,7 @@ export default function HorairesPageClient() {
                       {shownDays.map((day) => (
                         <button
                           key={day}
-                          onClick={() => setSelectedDay(day)}
+                          onClick={() => setPickedDay(day)}
                           className={`flex-shrink-0 rounded-full px-4 py-2 text-xs font-bold transition-all ${
                             selectedDay === day
                               ? "text-white"
