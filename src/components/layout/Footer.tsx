@@ -285,7 +285,7 @@ export default function Footer() {
                     href="https://jeyko.dev/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold text-white/70 underline-offset-4 transition-colors duration-300 hover:text-amber-300 hover:underline"
+                    className="jeyko-rainbow ml-1 font-bold underline-offset-4 hover:underline"
                   >
                     Jeyko.dev
                   </a>
@@ -490,7 +490,7 @@ export default function Footer() {
                 href="https://jeyko.dev/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-white/55 underline-offset-4 transition-colors duration-300 hover:text-amber-300 hover:underline"
+                className="jeyko-rainbow ml-1 font-bold underline-offset-4 hover:underline"
               >
                 Jeyko.dev
               </a>
@@ -501,6 +501,57 @@ export default function Footer() {
 
       {/* STYLES LOCAUX */}
       <style jsx>{`
+        /* Signature du concepteur : dégradé arc-en-ciel qui défile,
+           plus une pulsation légère pour attirer l'œil sans agresser. */
+        .jeyko-rainbow {
+          background-image: linear-gradient(
+            90deg,
+            #ef4444,
+            #f59e0b,
+            #facc15,
+            #22c55e,
+            #38bdf8,
+            #a855f7,
+            #ef4444
+          );
+          background-size: 300% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          -webkit-text-fill-color: transparent;
+          animation:
+            jeykoRainbow 5s linear infinite,
+            jeykoPulse 2.6s ease-in-out infinite;
+        }
+
+        @keyframes jeykoRainbow {
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 300% 50%;
+          }
+        }
+
+        @keyframes jeykoPulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.45;
+          }
+        }
+
+        /* Respecte le réglage système « réduire les animations » :
+           la couleur reste, le mouvement s'arrête. */
+        @media (prefers-reduced-motion: reduce) {
+          .jeyko-rainbow {
+            animation: none;
+            background-position: 0% 50%;
+          }
+        }
+
         .footer-social-pulse {
           animation: socialPulse 2.8s ease-in-out infinite;
         }
