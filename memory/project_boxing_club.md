@@ -15,10 +15,11 @@ Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
 
 ## Contenu réel en place
 
-- **21 compétiteurs** : 19 fiches complètes. Restent **Gomes Angelina** et
-  **Gomes Catalina**, à réclamer au club sur le même modèle que les autres
-  (nom, surnom, club, coach, catégorie de poids, nombre de combats,
-  victoires/défaites/nuls, KO, titres).
+- **21 compétiteurs, 21 fiches complètes** (31 août 2026). Plus aucun athlète
+  avec un record « — ». Les deux dernières (Gomes Angelina « Gigi », -60 kg,
+  13 V / 5 D, six titres nationaux + Collectif France ; Gomes Catalina
+  « Catal », -48 kg, 3 V / 1 D, championne de France K1 et full) ont été
+  saisies depuis les fiches papier du club.
 - **Disciplines représentées** : Kickboxing, Muay Thai, K1 et Full Contact.
   Le filtre de la page Athlètes est construit à partir de ces valeurs, donc
   toute nouvelle graphie crée une entrée de filtre en plus.
