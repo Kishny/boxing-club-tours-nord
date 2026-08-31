@@ -277,9 +277,19 @@ export default function Footer() {
                 droits réservés.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3 text-[0.78rem] text-white/42 md:justify-end md:text-sm">
-                <span>Site du club</span>
-                <span className="h-1 w-1 rounded-full bg-white/20" />
                 <span>Tours • La Riche • Métropole</span>
+                <span className="h-1 w-1 rounded-full bg-white/20" />
+                <span>
+                  Site réalisé par{" "}
+                  <a
+                    href="https://jeyko.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-white/70 underline-offset-4 transition-colors duration-300 hover:text-amber-300 hover:underline"
+                  >
+                    Jeyko.dev
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -473,6 +483,17 @@ export default function Footer() {
             </p>
             <p className="mt-1 text-[0.7rem] text-white/32">
               Tours • La Riche • Métropole
+            </p>
+            <p className="mt-2 text-[0.7rem] text-white/32">
+              Site réalisé par{" "}
+              <a
+                href="https://jeyko.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white/55 underline-offset-4 transition-colors duration-300 hover:text-amber-300 hover:underline"
+              >
+                Jeyko.dev
+              </a>
             </p>
           </div>
         </div>
