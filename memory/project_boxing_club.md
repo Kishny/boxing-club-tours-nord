@@ -60,24 +60,49 @@ Mongoose (MongoDB Atlas), jose, Cloudinary. Admin protégé par `src/proxy.ts`
 - **Cartes athlètes** : vignettes recadrées sur le visage, parce qu'un
   `object-position` réglé à la main coupait les têtes.
 
+## Référencement (31 août 2026)
+
+Le site est soumis à Google. Propriété **Search Console de type Domaine**
+`boxingtoursmetropole.fr`, validée par un TXT à la racine de la zone OVH
+(le SPF `v=spf1 include:mx.ovh.com ~all` doit rester intact à côté).
+Sitemap envoyé, 30 URL. Indexation demandée à la main pour les 9 pages
+principales. Google a découvert le site aussi via deux liens externes :
+l'Instagram du club et `comite-handisport37.fr`.
+
+Corrigé lors de l'audit :
+
+- `og-image.jpg` créée (l'URL était référencée partout mais renvoyait 404) :
+  photo du club + logo des trois clubs passé en blanc, 1200×630.
+  Le script de génération est reproductible avec PIL.
+- **Page Horaires en rendu serveur** : `page.tsx` lit le planning en base et
+  le passe en prop `initialPlanning`, avec repli sur
+  `planning-fallback.json`. `revalidate = 300`. Le HTML servi est passé de
+  69 à ~3 100 caractères.
+- `/coachs` et `/contact` scindées en page serveur + `*PageClient.tsx` :
+  titre, description, canonique et Open Graph propres.
+- Les 21 fiches athlètes ajoutées au sitemap depuis `athletes.ts`.
+- `not-found.tsx` en français, aux couleurs du site, en `noindex, follow`.
+
 ## Reste à faire
 
-1. **Page Horaires invisible pour Google** — rendue côté client, le HTML servi
-   ne contient qu'un écran de chargement. Le plus gros chantier restant.
-2. **Canoniques manquantes** sur `/coachs` et `/contact` — ce sont des
-   composants client, il faut les scinder en page serveur + composant client.
-3. **Pages `/disciplines/<slug>` en 404** — la collection CMS est vide, donc
-   `generateStaticParams` ne génère rien. Sans conséquence tant qu'aucun lien
-   n'y mène.
-4. **Page 404 par défaut de Next**, en anglais, sans menu.
-5. **Sitemap** — les 21 fiches athlètes manquent, il faudrait le rendre async.
-6. `?discipline=` transmis par les liens mais ignoré par la page Inscription.
-7. **Session admin** : le cookie JWT expire vite. Avant une série d'écritures
+1. **Pages `/disciplines/<slug>` et `/events/<slug>` en 404** — les collections
+   CMS sont vides. Aucun lien du site n'y mène, donc sans conséquence, mais
+   c'est du code inerte tant que le club ne les remplit pas.
+2. `?discipline=` transmis par les liens mais ignoré par la page Inscription.
+3. **Identité de marque à trancher avec le club** : le titre, le gabarit de
+   titre, le JSON-LD et l'Open Graph disent tous « Boxing Club Tours Nord »
+   alors que le domaine et l'identité sont « Tours Métropole », pour trois
+   clubs. Google va apprendre la mauvaise marque. Le JSON-LD ne déclare aussi
+   qu'une seule adresse sur les trois salles, et pas d'horaires d'ouverture.
+4. **Fiches Google Business Profile** pour les trois salles — pour « club de
+   boxe Tours », elles pèsent plus lourd que le site lui-même.
+5. **Session admin** : le cookie JWT expire vite. Avant une série d'écritures
    en base, tester par un appel qui doit échouer en 422 et non en 401 — sinon
    demander à l'utilisateur de se reconnecter à `/admin`.
-8. **DNS** : `boxingtoursmetropole.fr` pointe encore vers OVH. À rattacher au
-   projet Vercel avant la mise en ligne, sinon les URL canoniques désignent
-   l'ancien site.
+6. **`git push` impossible depuis le shell de la machine** (pas d'accès au
+   trousseau macOS) : les commits sont faits ici, l'utilisateur pousse
+   lui-même. `next build` échoue aussi (binaire SWC de macOS) : vérifier avec
+   `npx tsc --noEmit` et `npx eslint src`.
 
 ## À faire préciser par le club
 
